@@ -1,0 +1,62 @@
+@import "_variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-icons/font/bootstrap-icons.scss";
+@import "/styles/layout/sidebar.scss";
+@import "./layout/container";
+
+// Calender
+
+.demo-app {
+  .demo-app-main {
+    .fc-header-toolbar {
+      .fc-toolbar-chunk {
+        div {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .fc-button {
+            box-shadow: 0 3px 1px -2px #0003, 0 2px 2px #00000024,
+              0 1px 5px #0000001f;
+            box-sizing: border-box;
+            position: relative;
+            -webkit-user-select: none;
+            user-select: none;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            text-align: center;
+            margin: 0;
+            min-width: 64px;
+            line-height: 36px;
+            padding: 0 16px;
+            border-radius: 4px;
+            overflow: visible;
+            transform: translate3d(0, 0, 0);
+            transition: background 400ms cubic-bezier(0.25, 0.8, 0.25, 1),
+              box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
+            color: #000000de;
+            background-color: #fff;
+          }
+          .fc-button-active {
+            box-shadow: 0 0 #0003, 0 0 #00000024, 0 0 #0000001f;
+            background-color: #0000001f;
+          }
+          .fc-prev-button,
+          .fc-next-button {
+            box-shadow: none;
+            display: flex;
+            padding: 4px;
+            min-width: auto;
+            &:hover {
+              background-color: #ced4da;
+            }
+          }
+          h2 {
+            font-size: medium;
+            margin: 0px 8px;
+          }
+        }
+      }
+    }
+  }
+}

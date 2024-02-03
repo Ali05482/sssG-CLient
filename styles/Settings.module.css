@@ -1,0 +1,88 @@
+.sidebar {
+    background-color: #fff;
+    transition: left 0.3s ease;
+    margin: 0;
+    padding: 0;
+    text-transform: uppercase;
+}
+
+.sidebarHeader h3 {
+    color: #fff;
+    margin: 0;
+    font-size: 1.2rem;
+}
+
+.navitems {
+    height: 7rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sideMenu {
+    line-height: 50px;
+}
+
+.listUnstyled {
+    list-style: none;
+    padding: 0;
+}
+
+.menuItem {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #7B8B7B;
+    width: 150px;
+    font-size: 1rem;
+    --g: 20px;
+    /* the gap */
+    --b: 2px;
+    /* border thickness*/
+    --c: #669706;
+
+    padding: 10px;
+    --_c: #0000 0 25%, var(--c) 0 50%;
+    --_g1: repeating-linear-gradient(90deg, var(--_c)) repeat-x;
+    --_g2: repeating-linear-gradient(180deg, var(--_c)) repeat-y;
+    background:
+        var(--_g1) var(--_p, 25%) 0, var(--_g2) 0 var(--_p, 125%),
+        var(--_g1) var(--_p, 125%) 100%, var(--_g2) 100% var(--_p, 25%);
+    background-size: 200% var(--b), var(--b) 200%;
+    cursor: pointer;
+    filter: grayscale(50%);
+    transition: .3s;
+}
+
+.menuItem:hover {
+    color: #474F47;
+    --_p: 75%;
+    filter: grayscale(0%);
+}
+
+.menuItem p {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #B2BBB2;
+}
+
+.menuIcon {
+    width: 40px;
+    height: 40px;
+}
+
+/* theme.module.css */
+
+.sjs-general-backcolor {
+    --sjs-general-backcolor: rgba(255, 255, 255, 1);
+    /* Add other variables here */
+}
+
+.sjs-off-label {
+    color: var(--sjs-general-forecolor);
+}
+
+.sjs-on-label {
+    color: var(--sjs-general-forecolor);
+}

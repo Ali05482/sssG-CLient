@@ -1,0 +1,57 @@
+.flexContainer {
+    display: flex;
+    min-height: 100vh;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Sidebar styles */
+.sidebar {
+    /* width: 170px; */
+    /* height: 100vh; */
+    background-color: #ffffff;
+    transition: flex 0.3s;
+    text-decoration: none;
+}
+
+.sidebar a {
+    text-decoration: none;
+}
+
+/* Show/hide sidebar styles */
+.showSidebar {
+    flex: 0 0 0;
+    /* Hide sidebar */
+}
+
+/* Content area styles */
+.contentArea {
+    flex: 1;
+    /* Content area takes remaining width */
+    padding: 0;
+
+    /* Add padding for content */
+}
+
+/* Wrapper for content */
+.wrapper {
+    margin-top: 20px;
+    /* Adjust top margin as needed */
+}
+
+.customRow {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+}
+
+.sidebars {
+    flex: 0 0 20%;
+    /* Sidebar takes up 20% width */
+}
+
+.mainContent {
+    flex: 0 0 80%;
+    min-height: 50vh;
+    /* Main content takes up 80% width */
+}

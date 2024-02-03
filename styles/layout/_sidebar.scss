@@ -1,0 +1,305 @@
+.sidebarArea {
+  flex-shrink: 0;
+  width: 175px;
+  background-color: $sidebarColor;
+  .sidenav-bg:hover {
+    background-color: $gray-100;
+    border-radius: $border-radius;
+  }
+  .bi-speedometer2::before {
+    display: block !important;
+}
+.bi::before {
+  display: block;
+}
+.sidebarArea .flex-column {
+  text-align: center;
+}
+.nav-link{
+display: flex;
+flex-direction: column;
+}
+.sidenav-bg.nav-item a.nav-link .ms-3 {
+  margin-left: 0px !important;  
+}
+.sidenav-bg.nav-item a.nav-link {
+  text-align: center !important;
+}
+}
+// dev 26
+@media(max-width:991px){
+  .notessearchflex {
+    display: block;
+    margin: 20px 0px;
+    align-items: center;
+    GAP: 20px;
+}
+}
+@media(max-width:786px) {
+  .virtualup.card-body {
+    display: block !important;
+  }
+  .patientsinnerbtn.col-12.col-md-2 {
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+}
+  .sidebarArea.showSidebar {
+    margin-left: 0px;
+    width: 200px !important;
+}
+.sidebarArea.showSidebar .btn-close {
+  margin-top: -30px;
+}
+.notesinner.card-body .button-group .notesbtn {
+  padding: 5px !important;
+}
+.virtualitybuttons button.btn.btn-outline-secondary {
+  width: 100%;
+}
+  .notesinner.card-body {
+    
+    overflow: hidden;
+  }
+  .patientstableinner.card-body {
+    overflow: scroll;
+}
+  .virtualitybuttons button.ms-3.btn.btn-outline-secondary {
+    width: 100%;
+    margin: 10px 0px !important;
+}
+.notus.col-12.col-md-4 {
+  padding: 0px !important;
+}
+.userstableinner.card-body {
+  overflow: scroll;
+}
+ul.nav.nav-tabs.profileinnertabs {
+  display: block !important;
+}
+.notessearchflex {
+  display: block !important;
+}
+.notessearchflexin{
+  display: flex !important;
+  gap: 10px !important;
+}
+.notesinnersearchflex {
+  display: flex;
+  gap: 10px;
+}
+.noteinnerbtn {
+  align-items: center !important;
+}
+.patientsinnerbtn .notesbtn {
+  padding: 2px !important;
+  margin: 2px !important;
+}
+}
+nav.navbar.navbar-expand-md.navbar-dark.bg-primary button.btn.btn-primary {
+  background-color: #21212142 !important;
+  border: 1px solid #21212142 !important;
+}
+nav.navbar.navbar-expand-md.navbar-dark.bg-primary {
+  background-color: #21212142 !important;
+}
+.noteshead div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.notesinner.card-body .button-group .notesbtn {
+  margin-top: 40px;
+}
+.notesinner.card-body {
+  min-height: 200px;
+  // align-items: flex-end;
+  display: inline-grid;
+  
+}
+
+.noteinnerbtn {
+  display: flex;
+  gap: 10px;
+  align-items: baseline;
+}
+.notesinnersearch {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.patientsinnersearch {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+.notessearchflex {
+  display: flex;
+  margin: 20px 0px;
+  align-items: center;
+  GAP: 20px;
+}
+.virtualup.card-body {
+  display: flex;
+  justify-content: space-between;
+}
+.virtualpage .virtualicon {
+  background: #80808052;
+  padding: 5px;
+  border-radius: 50%;
+}
+.virtualpage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.virtualappoint.card {
+  min-height: 500px;
+}
+.notesinnersearchflex {
+  display: flex !important;
+  align-items: center;
+  margin-bottom: 20px;
+  gap: 20px;
+}
+.notessearchflex{
+  display: block !important;
+}
+.notessearchflexin {
+  display: flex !important;
+}
+.tabspage {
+  display: flex !important;
+}
+.proimage img {
+  max-width: 150px;
+}
+form.userform .forminner input {
+  width: 100%;
+  border-bottom: 1px solid black !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-right: none !important;
+}
+form.userform .forminner {
+  display: block;
+  width: 50%;
+}
+
+.formrowinner {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+}
+.btns {
+  display: flex;
+  align-items: flex-end;
+  gap: 30px;
+  justify-content: center;
+}
+.btns .forminner {
+  margin-top: 20px;
+  width: 30% !important;
+}
+.mainquesto {
+  display: flex;
+  justify-content: space-between;
+}
+.questohead {
+  text-align: center;
+}
+.questoari {
+  margin-top: 20px;
+}
+.btns a {
+  width: 30%;
+  text-align: center;
+  background: #212121;
+  padding: 15px;
+  color: #ffffff;
+  text-decoration: none;
+}
+#sig-canvas {
+  border: 2px dotted #CCCCCC;
+  border-radius: 15px;
+  cursor: crosshair;
+}
+
+.btntwo {
+  align-items: flex-end;
+  display: flex;
+  text-align: end;
+  justify-content: flex-end;
+}
+.proimage {display: flex;
+    align-items: flex-start;
+    gap: 30px;
+}
+.propicinner {
+  padding-top: 20px;
+}
+.prosect.row {
+  background: #ffffff;
+  margin: 20px 0px;
+  padding: 20px;
+  border-radius: 20px;
+}
+// dev 26
+@include media-breakpoint-down(lg) {
+  .sidebarArea {
+    position: fixed;
+    height: 100%;
+    overflow: auto;
+    z-index: 1;
+    margin-left: -$sidebarWidth;
+    transition: 0.2s ease-in;
+    &.showSidebar {
+      margin-left: 0px;
+    }
+  }
+}
+
+// Custom Code 
+
+.sidebar-bg {
+  background-color: #272b33 !important;
+}
+
+.dark-mode-background {
+  background-color: #272b33 !important;
+}
+.dark-mode-background-editor {
+  color: #272b33 !important;
+}
+
+.light-mode-background {
+  background-color: #fff !important;
+}
+
+.bodyArea {
+  width: 100%;
+}
+
+
+@media only screen and (max-width: 600px){
+  .userform .btns {
+
+    align-items: stretch;
+    justify-content: center;
+    flex-direction: column;
+  }
+  form.userform .forminner {
+    width: 100% !important;
+  }
+
+  form.userform .btns a {
+    width: 100% !important;
+  }
+
+  .card-body {
+    overflow-x: auto !important;
+  }
+
+
+}
+

@@ -1,0 +1,65 @@
+@keyframes glow {
+  0% {
+      text-shadow: 0 0 5px #ff0000; /* Start with a red glow */
+  }
+  50% {
+      text-shadow: 0 0 10px #ff0000; /* Increase the glow */
+  }
+  100% {
+      text-shadow: 0 0 5px #ff0000; /* Decrease the glow */
+  }
+}
+
+.glowing-text {
+  animation: glow 2s infinite alternate; /* Apply the glow animation */
+  font-size: 24px; /* You can adjust the font size as needed */
+}
+.contentArea {
+  flex-grow: 1;  
+  overflow-y: auto;
+}
+.wrapper {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+.card {
+  margin-bottom: 30px;
+  box-shadow: $box-shadow;
+}
+.dropdown-menu {
+  box-shadow: $box-shadow;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.circle-box {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  text-align: center;
+  border-radius: 100%;
+  &.lg-box {
+    width: 60px;
+    height: 60px;
+    font-size: 21px;
+    line-height: 60px;
+  }
+  &.md-box {
+    width: 50px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 50px;
+  }
+}
+.button-group .btn {
+  margin: 3px;
+}
+.btn-white {
+  border: 1px solid $border-color;
+}
+.simplebar-scrollbar:before {
+  background: #a0a0a0;
+}
+.apexcharts-toolbar {
+  z-index: 0 !important;
+}

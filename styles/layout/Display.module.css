@@ -1,0 +1,88 @@
+.container {
+    width: 100vw;
+    font-family: roboto;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-image: url('/login/images/svg2.png');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    background-color: white;
+}
+
+.logo {
+    background-image: url('/login/images/brandLogo.jpeg');
+    background-repeat: no-repeat;
+    width: 240px;
+    height: 56px;
+    background-size: contain;
+}
+
+.wellImage {}
+
+.first {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.bars {
+    display: flex;
+}
+
+.dropdown {
+    border: none;
+    font-weight: bold;
+}
+
+.bars svg {
+    width: 50px;
+    height: 9px;
+    margin-bottom: 10px;
+    fill: red;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 20px 10px 20px;
+    align-items: center;
+}
+
+.newContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 50%;
+    margin: 150px;
+}
+
+.texts {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.BtnGroup {
+    margin-top: 70px;
+
+}
+
+.btns button {
+    background-color: #96C582;
+    border: none;
+    width: 250px;
+    height: 50px;
+}
+
+.btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+.margins {
+    margin-right: 6px;
+}

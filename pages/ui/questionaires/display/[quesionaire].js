@@ -467,11 +467,14 @@ const Display = ({ appointment }) => {
                   <div key={index} className="row">
                     <div className="col-md-12">
                       <FormControl component="fieldset">
+                      <strong><legend>{questionare?._id}</legend></strong>
                         <strong><legend>{questionare?.name}</legend></strong>
                         <FormGroup>
                           <div className="row">
                             {questionare?.answers?.map((answer, ansIndex) => (
-                              <DecisionMaker
+                             <>
+                               <strong><legend>{answer?._id}</legend></strong>
+                               <DecisionMaker
                                 key={ansIndex}
                                 decisionTaker={answer?.answerType}
                                 value={answer?.answer}
@@ -486,6 +489,7 @@ const Display = ({ appointment }) => {
                                 handleChange={handleChange}
                                 handleImageUpload={handleImageUpload}
                               />
+                              </>
                             ))}
                           </div>
                         </FormGroup>

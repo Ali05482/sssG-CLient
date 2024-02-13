@@ -468,7 +468,7 @@ const Display = ({ appointment }) => {
                     <div className="col-md-12">
                       <FormControl component="fieldset">
                         <strong><legend>{questionare?.name}</legend></strong>
-                         <small>  QuestionValue => <b>{questionare?._id}</b></small>
+                         <small>  QuestionValue: <b>{questionare?._id}</b></small>
                         <FormGroup>
                           <div className="row">
                             {questionare?.answers?.map((answer, ansIndex) => (
@@ -489,7 +489,7 @@ const Display = ({ appointment }) => {
                                 handleChange={handleChange}
                                 handleImageUpload={handleImageUpload}
                               />
-                                  <small>  AnswerValue => <b>{answer?._id}</b></small>
+                                  <small>  AnswerValue: <b>{answer?._id}</b></small>
                               </>
                             ))}
                           </div>

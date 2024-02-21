@@ -105,17 +105,17 @@ const UserManager = () => {
     event.preventDefault();
     try {
       const copiedData = {...addUserInfo}
-      delete copiedData._id
+      delete copiedData?._id
       copiedData.other = {
-        specialty: addUserInfo.specialty,
-        availability: addUserInfo.availability,
-        hospitalLocation: addUserInfo.hospitalLocation,
-        hospitalName: addUserInfo.hospitalName,
-        biography: addUserInfo.biography,
-        details:addUserInfo.details
+        specialty: addUserInfo?.specialty,
+        availability: addUserInfo?.availability,
+        hospitalLocation: addUserInfo?.hospitalLocation,
+        hospitalName: addUserInfo?.hospitalName,
+        biography: addUserInfo?.biography,
+        details:addUserInfo?.details
       }
       if (editable) {
-        await global.updateUser(copiedData);
+        await global.updateUser(copiedData, addUserInfo?._id);
       } else {
         await global.addUser(copiedData);
       }
@@ -366,7 +366,7 @@ const UserManager = () => {
                     required
                   />
                 </div>
-                <div className="col-12">
+               {!editable && <div className="col-12">
                   <input
                     type="password"
                     onChange={handleChange}
@@ -377,7 +377,7 @@ const UserManager = () => {
                     id="password"
                     required
                   />
-                </div>
+                </div>}
                 <div className="col-12">
                   <input
                     onChange={handleChange}

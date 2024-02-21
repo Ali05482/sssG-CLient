@@ -133,11 +133,11 @@ const DoctorsListForScheduling = ({ appointmentId }) => {
                             {selectedDoctor && <h5>Selected Doctor : {doctor?.user?.firstName + " " + doctor?.user?.lastName + " " + doctor?.user?.phoneNumber}</h5>}
                             <div className="form-group">
                                 <label htmlFor="">Start Time</label>
-                                <input style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} type="time" name='time' className="form-control" />
+                                <input required style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} type="time" name='time' className="form-control" />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Enter Duration</label>
-                                <input style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} type="number" name='duration' className="form-control" />
+                                <input required min={4} style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} type="number" name='duration' className="form-control" />
                             </div>
                         </div>
                         <div className="card-footer">

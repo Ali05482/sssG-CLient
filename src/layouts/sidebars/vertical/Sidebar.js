@@ -3,14 +3,14 @@ import Logo from "../../logo/Logo";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import MainContext from "../../../app/context/context";
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import { ShowSideBar } from "../../header/Header";
 
 
 const Sidebar = ({ showMobilemenu, currentUser }) => {
   const global = useContext(MainContext);
   let navigation;
-  if(currentUser?.role==="patient"){
+  if (currentUser?.role === "patient") {
     navigation = [
       {
         title: "Virtual Care",
@@ -23,10 +23,10 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         icon: "bi bi-clock-history",
       },
     ];
-  } else if(currentUser?.role==="compodar"){
+  } else if (currentUser?.role === "compodar") {
     navigation = [
       {
-        title: "Appointment",
+        title: "Registration",
         href: "/ui/patient/in/clinic",
         icon: "bi bi-person-circle",
       },
@@ -34,11 +34,6 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         title: "Create History",
         href: "/ui/patient/in/collect-history",
         icon: "bi bi-clock-history",
-      },
-      {
-        title: "Notes",
-        href: "/ui/notes",
-        icon: "bi bi-sticky",
       },
       {
         title: "Get Vitals",
@@ -55,18 +50,18 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         href: "/ui/patient/in/connect/appointments",
         icon: "bi bi-camera-reels",
       },
-      
+
     ];
-  } else if(currentUser?.role==="schedulingTeam"){
+  } else if (currentUser?.role === "schedulingTeam") {
     navigation = [
       {
         title: "Scheduling",
-        href: "/ui/patient/in/scheduling/appointments",
+        href: "/ui/scheduling/appointments",
         icon: "bi bi bi-clock",
       },
     ]
   }
-  else if(currentUser?.role==="admin") {
+  else if (currentUser?.role === "admin") {
     navigation = [
       {
         title: "Referrals",
@@ -95,11 +90,11 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
       },
     ];
   }
-  else if(currentUser?.role==="supperAdmin") {
+  else if (currentUser?.role === "supperAdmin") {
     navigation = [
       {
-        title: "Referrals",
-        href: "/ui/referrals",
+        title: "Attendants",
+        href: "/ui/clinic/attendant",
         icon: "bi bi-arrow-left-right",
       },
       {
@@ -124,12 +119,17 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
       },
     ];
   }
-  else if(currentUser?.role==="doctor") {
+  else if (currentUser?.role === "doctor") {
     navigation = [
       {
         title: "Virtual Care",
         href: "/ui/virtualcare",
         icon: "bi bi-camera-video",
+      },
+      {
+        title: "Referrals",
+        href: "/ui/referrals",
+        icon: "bi bi-arrow-left-right",
       },
       {
         title: "Notes",
@@ -143,7 +143,7 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
       },
       {
         title: "Availability",
-        href: "/ui/doctor/availability", 
+        href: "/ui/doctor/availability",
         icon: "bi bi-textarea-resize",
       },
     ];
@@ -151,46 +151,45 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
   const curl = useRouter();
   const location = curl.pathname;
 
-  function hideMenu(){
+  function hideMenu() {
     var sideBar = document.getElementById('side-bar');
     // Slide the sidebar to the left and hide it:
-  sideBar.style.transition = "transform 0.5s ease-out"; // Adjust duration and easing as needed
-  sideBar.style.transform = "translateX(-100%)";
-  setTimeout(function() {
-    sideBar.style.display = "none";
-  }, 500); // Match the transition duration
+    sideBar.style.transition = "transform 0.5s ease-out"; // Adjust duration and easing as needed
+    sideBar.style.transform = "translateX(-100%)";
+    setTimeout(function () {
+      sideBar.style.display = "none";
+    }, 500); // Match the transition duration
   }
-  const navToggler = ()=>{
-    if(window.innerWidth <= 685){
+  const navToggler = () => {
+    if (window.innerWidth <= 685) {
       ShowSideBar();
     }
   }
   return (
-    <div className={`p-3 ${global?.mode==="dark"?"dark-mode-background":"light-mode-background"}`}>
-    <Logo currentUser={currentUser}/>
-    <div className="pt-4 mt-2">
-      <Nav vertical className="sidebarNav">
-        {navigation?.map((navi, index) => (
-          <NavItem key={index} className="sidenav-bg">
-            <Link onClick={navToggler} href={navi.href}>
-              <a
-                className={`d-flex flex-column align-items-center justify-content-center py-3 ${
-                  location === navi.href
+    <div className={`p-3 ${global?.mode === "dark" ? "dark-mode-background" : "light-mode-background"}`}>
+      <Logo currentUser={currentUser} />
+      <div className="pt-4 mt-2">
+        <Nav vertical className="sidebarNav">
+          {navigation?.map((navi, index) => (
+            <NavItem key={index} className="sidenav-bg">
+              <Link onClick={navToggler} href={navi.href}>
+                <a
+                  className={`d-flex flex-column align-items-center justify-content-center py-3 ${location === navi.href
                     ? "text-dark bg-white"
                     : "text-secondary"
-                }`}
-                style={{ textAlign: "center", borderRadius: "10px" }}
-              >
-                <i className={`${navi.icon} fa-2x`}></i>
-                <span className="d-block">{navi.title}</span>
-              </a>
-            </Link>
-          </NavItem>
-        ))}
-      </Nav>
+                    }`}
+                  style={{ textAlign: "center", borderRadius: "10px" }}
+                >
+                  <i className={`${navi.icon} fa-2x`}></i>
+                  <span className="d-block">{navi.title}</span>
+                </a>
+              </Link>
+            </NavItem>
+          ))}
+        </Nav>
+      </div>
     </div>
-  </div>
-  
+
   );
 };
 export default Sidebar;

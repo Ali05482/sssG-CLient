@@ -30,7 +30,8 @@ const MyFullCalendar = ({ allAppointments }) => {
     setGridView("dayGridDay");
   };
 
-  const handleEventClick = (clickInfo) => {;
+  const handleEventClick = (clickInfo) => {
+    ;
     calendarRef.current.getApi().changeView("dayGridDay", clickInfo.event.start);
     setGridView("dayGridDay");
     setSelectedEventId(clickInfo.event.id);
@@ -91,24 +92,20 @@ const MyFullCalendar = ({ allAppointments }) => {
     const appointmentTime = eventApi.time;
     const healthCard = eventApi.healthCard;
     const dateOfBirth = eventApi.patient?.dateOfBirth;
-    console.log("dateOfBirth", dateOfBirth)
     const email = eventApi.patient?.email;
     const phoneNumber = eventApi?.patient?.phoneNumber;
     const questionnaireId = eventApi?.questionaire?._id;
     const id = eventApi?._id
     const meetingIdEvent = eventApi?.meeetingId
     if (!_.isUndefined(questionnaireId)) {
-     if(!meetingIds) setMeetingId(meetingIdEvent);
-     if(!questionnaireIdToRedirect) setQuestionnaireIdToRedirect(questionnaireId);
-     if(!appointmentId) setAppointmentId(id);    
+      if (!meetingIds) setMeetingId(meetingIdEvent);
+      if (!questionnaireIdToRedirect) setQuestionnaireIdToRedirect(questionnaireId);
+      if (!appointmentId) setAppointmentId(id);
     }
     const eventDate = new Date(eventInfo.event.start);
     const age = calculateAge(dateOfBirth, eventDate);
     const formattedPhoneNumber = formatPhoneNumber(phoneNumber);
     const isSelected = selectedEventId === eventInfo.event.id;
-    const navigator = (url) => {
-      router.push(url)
-    }
     return (
       <>
         <Modal isOpen={isSelected && isModalOpen} className="modal-dialog-centered" size="xl">
@@ -154,72 +151,72 @@ const MyFullCalendar = ({ allAppointments }) => {
           </div>
         </div>
         {/* <div className="collapse" id={`${eventInfo.event.id}`}> */}
-          <div className=" text-dark bg-light p-2">
-            {dateOfBirth && (
-              <div className="d-flex align-items-center my-3">
-                <i className="bi bi-credit-card-fill me-2 fs-6"></i>
-                <p className=" text-dark bg-light mb-0 fs-6">
-                  ({dateOfBirth}) {age ? age : 0} years old
-                </p>
-              </div>
-            )}
+        <div className=" text-dark bg-light p-2">
+          {dateOfBirth && (
             <div className="d-flex align-items-center my-3">
               <i className="bi bi-credit-card-fill me-2 fs-6"></i>
               <p className=" text-dark bg-light mb-0 fs-6">
-                Health Card: {healthCard}
+                ({dateOfBirth}) {age ? age : 0} years old
               </p>
             </div>
-            <div className="d-flex align-items-center my-3">
-              <i className="bi bi-telephone-fill me-2 fs-6"></i>
-              <p className=" text-dark bg-light mb-0 fs-6">
-                {formattedPhoneNumber}
-              </p>
-            </div>
-            <div className="d-flex align-items-center my-3">
-              <i className="bi bi-envelope-fill me-2 fs-6"></i>
-              <p className="text-dark bg-light mb-0 fs-6">
-                <a href={`mailto:${email}`}>{email}</a>
-              </p>
-            </div>
-            <div className="d-flex align-items-center my-3">
-              <button
-                onClick={() => setIsModalOpen(!isModalOpen)}
-                type="button"
-                className="btn btn-outline-secondary"
-              >
-                <i className="bi bi-calendar-check-fill me-2 fs-6"></i>{" "}
-                <span>Follow-Up Appointment</span>
-              </button>
-            </div>
-            <hr />
-            <div className="d-flex align-items-center my-3 d-flex justify-content-between align-items-center">
-              <button type="button" className="btn btn-outline-secondary">
-                <i className="bi bi-calendar-check-fill me-2 fs-6"></i>
-                <span>Reschedule</span>
-              </button>
-              <button type="button" className="btn btn-outline-secondary">
-                <i className="bi bi-sticky-fill me-2 fs-6"></i>
-                {/* <span onClick={() => navigator(`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}`)}>Notes</span> */}
-                <a className="text-dark" style={{textDecoration:"none",color:"inherit", cursor:"pointer"}}  target="_blank" href={`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}`} rel="noreferrer">
+          )}
+          <div className="d-flex align-items-center my-3">
+            <i className="bi bi-credit-card-fill me-2 fs-6"></i>
+            <p className=" text-dark bg-light mb-0 fs-6">
+              Health Card: {healthCard}
+            </p>
+          </div>
+          <div className="d-flex align-items-center my-3">
+            <i className="bi bi-telephone-fill me-2 fs-6"></i>
+            <p className=" text-dark bg-light mb-0 fs-6">
+              {formattedPhoneNumber}
+            </p>
+          </div>
+          <div className="d-flex align-items-center my-3">
+            <i className="bi bi-envelope-fill me-2 fs-6"></i>
+            <p className="text-dark bg-light mb-0 fs-6">
+              <a href={`mailto:${email}`}>{email}</a>
+            </p>
+          </div>
+          <div className="d-flex align-items-center my-3">
+            <button
+              onClick={() => setIsModalOpen(!isModalOpen)}
+              type="button"
+              className="btn btn-outline-secondary"
+            >
+              <i className="bi bi-calendar-check-fill me-2 fs-6"></i>{" "}
+              <span>Follow-Up Appointment</span>
+            </button>
+          </div>
+          <hr />
+          <div className="d-flex align-items-center my-3 d-flex justify-content-between align-items-center">
+            <button type="button" className="btn btn-outline-secondary">
+              <i className="bi bi-calendar-check-fill me-2 fs-6"></i>
+              <span>Reschedule</span>
+            </button>
+            <button type="button" className="btn btn-outline-secondary">
+              <i className="bi bi-sticky-fill me-2 fs-6"></i>
+              {/* <span onClick={() => navigator(`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}`)}>Notes</span> */}
+              <a className="text-dark" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }} target="_blank" href={`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}`} rel="noreferrer">
                 Notes
               </a>
-              </button>
-            </div>
-            <hr />
-            <div className="d-flex align-items-center my-3 d-flex justify-content-between align-items-center">
-              <button type="button" className="btn btn-outline-secondary">
-                <i className="bi bi-x-circle-fill me-2 fs-6"></i>
-                <span>Cancel</span>
-              </button>
-              <button type="button" className="btn btn btn-primary">
-                <i className="bi bi-laptop me-2 fs-6"></i>
-                {/* <span onClick={() => navigator(`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}&&meetingId=${encodeURIComponent(meetingIdEvent)}`)}>Open Visit</span> */}
-                <a className="text-dark" style={{textDecoration:"none",color:"inherit", cursor:"pointer"}}  target="_blank" href={`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}&&meetingId=${encodeURIComponent(meetingIdEvent)}`} rel="noreferrer">
+            </button>
+          </div>
+          <hr />
+          <div className="d-flex align-items-center my-3 d-flex justify-content-between align-items-center">
+            <button type="button" className="btn btn-outline-secondary">
+              <i className="bi bi-x-circle-fill me-2 fs-6"></i>
+              <span>Cancel</span>
+            </button>
+            <button type="button" className="btn btn btn-primary">
+              <i className="bi bi-laptop me-2 fs-6"></i>
+              {/* <span onClick={() => navigator(`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}&&meetingId=${encodeURIComponent(meetingIdEvent)}`)}>Open Visit</span> */}
+              <a className="text-dark" style={{ textDecoration: "none", color: "inherit", cursor: "pointer" }} target="_blank" href={`./report?questionnaireId=${encodeURIComponent(questionnaireId)}&&appointmentId=${encodeURIComponent(id)}&&meetingId=${encodeURIComponent(meetingIdEvent)}`} rel="noreferrer">
                 Open Visit
               </a>
-              </button>
-            </div>
+            </button>
           </div>
+        </div>
         {/* </div> */}
       </>
     );
@@ -264,8 +261,8 @@ const MyFullCalendar = ({ allAppointments }) => {
           headerToolbar={{
             // end: "prev,title,next",
             // start: "dayGridDay,today",
-            end:"",
-            start:"",
+            end: "",
+            start: "",
           }}
           initialView={gridView}
           editable={true}

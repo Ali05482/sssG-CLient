@@ -9,11 +9,9 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-  Radio,
   Checkbox,
   Button,
   Input,
-  RadioGroup
 } from "@mui/material";
 import { ProgressSpinner } from "primereact/progressspinner";
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
@@ -24,7 +22,6 @@ import styles from "/styles/Appointment.module.css";
 import LoadingBar from "react-top-loading-bar";
 const DecisionMaker = React.memo(({ decisionTaker, value, label, questionId, question, ans, linkedQues, questionIndex, selectedAnswer, setSelectedAnswer, handleChange, handleImageUpload }) => {
   const isSelected = selectedAnswer[questionId] === label;
-
   const handleSelectionChange = () => {
     setSelectedAnswer((prevSelectedAnswer) => ({
       ...prevSelectedAnswer,
@@ -33,37 +30,96 @@ const DecisionMaker = React.memo(({ decisionTaker, value, label, questionId, que
     handleChange(questionId, label, decisionTaker, question, ans, null, linkedQues, questionIndex);
   };
 
+
   if (decisionTaker === "radio") {
     return (
-      <FormControl component="fieldset">
-        <RadioGroup value={isSelected ? label : ''} onChange={handleSelectionChange}>
-          <FormControlLabel
-            id={value}
-            value={label}
-            control={<Radio checked={isSelected} />}
-            label={label}
-          />
-        </RadioGroup>
-      </FormControl>
+      <div className="col-md-6 my-1">
+        <div className="form-group">
+          <div className="form-check">
+            <input
+              className="form-check-input"
+              type="radio"
+              value={isSelected ? label : ''}
+              checked={isSelected}
+              onChange={handleSelectionChange}
+              style={{ width: '1.1em', height: '1.1em' }}
+              id={value}
+            />
+            <label style={{ fontWeight: "500" }} className="form-check-label" htmlFor={value}>
+              {label}
+            </label>
+          </div>
+          {value === 'other' && (
+            <textarea
+              className="form-control"
+              id={value}
+              name={ans?._id}
+              value={ans.value}
+              onChange={(e) => handleChange(questionId, label, decisionTaker, question, ans, e?.target?.value)}
+            />
+          )}
+        </div>
+      </div>
+
+
+      // <div className="col-md-6">
+      // <FormControl component="fieldset">
+      //   <RadioGroup value={isSelected ? label : ''} onChange={handleSelectionChange}>
+      //     <FormControlLabel
+      //       id={value}
+      //       value={label}
+      //       control={<Radio checked={isSelected} />}
+      //       label={label}
+      //     />
+      //   </RadioGroup>
+      //   {value === "other" ?
+      //     <>
+      //       <textarea
+      //         className="form-control"
+      //         id={value}
+      //         name={ans?._id}
+      //         value={ans.value}
+      //         onChange={(e) => handleChange(questionId, label, decisionTaker, question, ans, e?.target?.value)}
+      //       />
+      //     </>
+      //     : ""}
+      // </FormControl>
+      // </div>
     );
   } else if (decisionTaker === "checkbox") {
     return (
-      <div className="col-md-6">
-        <FormControlLabel
-          value={value}
-          control={
-            <Checkbox
-              checked={ans.checked}
-              onChange={(e) => handleChange(questionId, label, decisionTaker, question, ans, null, linkedQues, questionIndex, e?.target?.checked, handleImageUpload)}
-            />
-          }
-          label={label}
-        />
+      <div className="col-md-3">
+        <div className="form-check">
+          <input
+            className="form-check-input"
+            type="checkbox"
+            id={value}
+            checked={ans.checked}
+            onChange={(e) => handleChange(questionId, label, decisionTaker, question, ans, null, linkedQues, questionIndex, e?.target?.checked, handleImageUpload)}
+          />
+          <label style={{ fontWeight: "500" }} className="form-check-label" htmlFor={value}>
+            {label}
+          </label>
+        </div>
       </div>
+
+      // <div className="col-md-3">
+      //   <FormControlLabel
+      //     value={value}
+      //     control={
+      //       <Checkbox
+      //         checked={ans.checked}
+      //         onChange={(e) => handleChange(questionId, label, decisionTaker, question, ans, null, linkedQues, questionIndex, e?.target?.checked, handleImageUpload)}
+      //       />
+      //     }
+      //     label={label}
+      //   />
+      // </div>
     );
   } else if (decisionTaker === "text" || decisionTaker === "number") {
     return (
       <textarea
+        required
         className="form-control"
         id={value}
         name={ans?._id}
@@ -71,7 +127,7 @@ const DecisionMaker = React.memo(({ decisionTaker, value, label, questionId, que
         onChange={(e) => handleChange(questionId, label, decisionTaker, question, ans, e?.target?.value)}
       />
     );
-  } else if (decisionTaker === "files") {
+  } else if (decisionTaker === "images") {
     return (
       <div style={{ display: 'flex' }}>
         <Button component="label" variant="contained" startIcon={<CloudUploadIcon />}>
@@ -98,8 +154,8 @@ const DecisionMaker = React.memo(({ decisionTaker, value, label, questionId, que
     );
   } else if (decisionTaker === "range") {
     return (
-      <FormControl>
-        <Input
+      <div className="form-group">
+        <input
           type="range"
           id={value}
           name={value}
@@ -109,13 +165,27 @@ const DecisionMaker = React.memo(({ decisionTaker, value, label, questionId, que
           value={ans.value}
           defaultValue={0}
           onChange={(e) => handleChange(questionId, e.target.value, decisionTaker, question, ans)}
+          className="form-control-range"
         />
-      </FormControl>
+      </div>
+      // <FormControl>
+      //   <Input
+      //     type="range"
+      //     id={value}
+      //     name={value}
+      //     min={0}
+      //     max={label}
+      //     step={3}
+      //     value={ans.value}
+      //     defaultValue={0}
+      //     onChange={(e) => handleChange(questionId, e.target.value, decisionTaker, question, ans)}
+      //   />
+      // </FormControl>
     );
   } else if (decisionTaker === "calendar") {
     return (
       <FormControl>
-         <DateRangePicker />
+        <DateRangePicker />
       </FormControl>
     );
   } else {
@@ -165,9 +235,14 @@ const Display = ({ appointment }) => {
   const [radioState, setRadioState] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const fetchAllQuestion = useCallback(async (questionId) => {
-    const totalQuestonaires = await global.getQuestionaire(questionId);
-    if (totalQuestonaires?.status) {
-      setQuestionaires(totalQuestonaires?.result?.data?.questionId);
+    // const totalQuestonaires = await global.getQuestionaire(questionId);
+    // if (totalQuestonaires?.status) {
+    //   setQuestionaires(totalQuestonaires?.result?.data?.questionId);
+    // }
+    const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
+    const data = await questions.json();
+    if (data?.status) {
+      setQuestionaires(data?.data?.questionId);
     }
   }, [global]);
 
@@ -209,7 +284,6 @@ const Display = ({ appointment }) => {
     if (filesLinks?.status) {
       const updatedImageState = [...imagesState];
       const newImagesData = updatedImageState?.filter(x => x?.answerId !== answerId);
-      console.log("updatedImageState", newImagesData)
       setImagesState(newImagesData);
       const updatedFormData = { ...formData };
       const updatedQuestions = updatedFormData?.data?.filter(x => x?.question_id !== values?.questionId);
@@ -431,6 +505,7 @@ const Display = ({ appointment }) => {
   };
 
   return (
+<<<<<<< Updated upstream
     <Container maxWidth="md">
       <LoadingBar
         color="#0000FF"
@@ -495,26 +570,89 @@ const Display = ({ appointment }) => {
                           </div>
                         </FormGroup>
                       </FormControl>
+=======
+    <>
+      <Container maxWidth="md">
+        <LoadingBar
+          color="#0000FF"
+          progress={global.pageLoader.pageLoading}
+          onLoaderFinished={() => global.pageLoader.setPageLoading(0)}
+        />
+        {global.pageLoader.primeReactLoader && (
+          <div className={styles.overlay}>
+            <ProgressSpinner
+              style={{ width: "180px", height: "180px" }}
+              animationDuration=".5s"
+            />
+          </div>
+        )}
+        <Card
+          variant="outlined"
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-start",
+          }}
+        >
+          <CardContent>
+            <form style={{ width: "100%" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  marginBottom: "1rem",
+                }}
+              >
+                <div className="container">
+                  {questionaires?.map((questionare, index) => (
+                    <div key={index} className="row">
+                      <div className="col-md-12">
+                        <FormControl component="fieldset">
+                          <strong>{questionare?.name}</strong>
+                          <FormGroup>
+                            <div className="row">
+                              {questionare?.answers?.map((answer, ansIndex) => (
+                                <DecisionMaker
+                                  key={ansIndex}
+                                  decisionTaker={answer?.answerType}
+                                  value={answer?.answer}
+                                  label={answer.answer}
+                                  questionId={questionare?._id}
+                                  question={questionare}
+                                  ans={answer}
+                                  linkedQues={answer?.linkedQuestion}
+                                  questionIndex={index}
+                                  selectedAnswer={selectedAnswer}
+                                  setSelectedAnswer={setSelectedAnswer}
+                                  handleChange={handleChange}
+                                  handleImageUpload={handleImageUpload}
+                                />
+                              ))}
+                            </div>
+                          </FormGroup>
+                        </FormControl>
+                      </div>
+>>>>>>> Stashed changes
                     </div>
-                  </div>
-                ))}
+                  ))}
+                </div>
+                <div>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    style={{ marginTop: "1rem" }}
+                    onClick={submitForm}
+                  >
+                    Submit
+                  </Button>
+                </div>
               </div>
-              <div>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="button"
-                  style={{ marginTop: "1rem" }}
-                  onClick={submitForm}
-                >
-                  Submit
-                </Button>
-              </div>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
-    </Container>
+            </form>
+          </CardContent>
+        </Card>
+      </Container>
+    </>
   );
 };
 

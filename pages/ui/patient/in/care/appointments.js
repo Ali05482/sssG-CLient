@@ -26,11 +26,10 @@ const Appointments = () => {
                 title: "Something Went Wrong, contact admin",
             })
         }
-    }
+    };
 
     useEffect(() => {
         fetchAppointments();
-
         const intervalId = setInterval(() => {
             fetchAppointments();
         }, 15000);
@@ -45,7 +44,18 @@ const Appointments = () => {
         x?.patient?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.patient?.phoneNumber.includes(searchTerm)
     );
-
+    const handleChangeAppointmentStatus = async (appointmentId) => {
+        try {
+            await global?.updateAppointmentStatus({ status: "careApproved" }, appointmentId);
+            await fetchAppointments();
+        } catch (error) {
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something Went Wrong while changing status, Please try again....',
+            });
+        }
+    };
     return (
         <FullLayout>
             <div className="container">
@@ -60,7 +70,7 @@ const Appointments = () => {
                         <div className="mb-3">
                             <label htmlFor="">Search</label>
                             <input
-                            style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }}
+                                style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }}
                                 type="text"
                                 className="form-control"
                                 placeholder="Search by Name or Phone Contact"
@@ -71,10 +81,11 @@ const Appointments = () => {
                         <table style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className='table'>
                             <thead>
                                 <tr>
-                                <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>#</b></th>
-                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Name</b></th>
-                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Phone Contact</b></th>
-                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Action</b></th>
+                                    <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>#</b></th>
+                                    <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Name</b></th>
+                                    <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Phone Contact</b></th>
+                                    <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Action</b></th>
+                                    <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>Complete<b></b></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -88,6 +99,7 @@ const Appointments = () => {
                                                 Process
                                             </a>
                                         </td>
+                                        <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><button className="btn btn-danger" onClick={() => { handleChangeAppointmentStatus(x?._id) }}>✅</button></td>
                                     </tr>
                                 ))}
                             </tbody>

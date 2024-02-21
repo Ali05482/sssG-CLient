@@ -9,23 +9,23 @@ const fetcher = async (
 ) => {
   try {
     // const apiUrl = process.env.API_BASE_URL + process.env.API_VERSION + url
+<<<<<<< Updated upstream
     const apiUrl = "https://sssg-server.vercel.app" + "/api/v1" + url;
+=======
+    const apiUrl = "https://sss-g-server.vercel.app" + "/api/v1" + url;
+>>>>>>> Stashed changes
     // const apiUrl = "http://localhost:4001" + "/api/v1" + url
     pageLoader.setPageLoading(30);
     pageLoader.setPrimeReactLoader(true);
-
     const response = await fetch(apiUrl, {
       method: method,
       headers: {
-        "Content-Type": contentType,
-        Authorization: `${localStorage.getItem("authToken")}`,
-        // 'Origin': 'https://sss-g-client.vercel.app'
+        "Content-Type": contentType, Authorization: `${localStorage.getItem("authToken")}`,
       },
       body: JSON.stringify(data),
     });
     pageLoader.setPageLoading(60);
     const result = await response.json();
-
     if (response.status == 401) {
       Swal.fire({
         icon: "warning",
@@ -71,7 +71,7 @@ const fetcher = async (
             result,
           };
         }
-        
+
       }
     }
   } catch (error) {

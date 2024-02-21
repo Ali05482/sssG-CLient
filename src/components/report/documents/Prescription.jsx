@@ -17,7 +17,7 @@ const Prescription = (props) => {
   const handlePrescription = (e) => {
     e.preventDefault();
     const uniqueId = Math.random().toString(36).substr(2, 9)?.toString();
-    setMedications({ ...medications, uniqueId: uniqueId })
+    setMedications({ ...medications, uniqueId: uniqueId });
     const prescriptions = { ...props?.prescription };
     const neWPrescription = (prescriptions.medicalInstruction = [
       ...prescriptions?.medicalInstruction,
@@ -25,18 +25,28 @@ const Prescription = (props) => {
     ]);
     const content = prescriptionBuilderV2(props, neWPrescription);
     props?.setPrescriptionContent(content);
-    console.log("prescriptions=====>", prescriptions);  
     props?.setPrescription(prescriptions);
+    setMedications({
+      medicineName: "",
+      doseInstcruction: "",
+      quantity: "",
+      repeats: "",
+      luCode: "",
+      uniqueId: "",
+    });
   };
-  const handleEditPrescription = (nodeId) => {
-    
-  };
+  const handleEditPrescription = (nodeId) => {};
   const handleDeletePrescription = (uniqueId) => {
     const prescriptions = { ...props?.prescription };
-    const neWPrescription = prescriptions?.medicalInstruction?.filter(x => x?.uniqueId !== uniqueId);
+    const neWPrescription = prescriptions?.medicalInstruction?.filter(
+      (x) => x?.uniqueId !== uniqueId
+    );
     const content = prescriptionBuilderV2(props, neWPrescription);
     props?.setPrescriptionContent(content);
-    props?.setPrescription({...prescriptions, medicalInstruction: neWPrescription});
+    props?.setPrescription({
+      ...prescriptions,
+      medicalInstruction: neWPrescription,
+    });
   };
   const handlePrescriptionName = (e) => {
     const { name, value } = e?.target;
@@ -49,12 +59,13 @@ const Prescription = (props) => {
         <div className="d-flex justify-content-end">
           <button
             onClick={() => {
+              props?.handleSubmitPrescription();
               props?.setIsPrescriptionOpen(false);
             }}
             type="button"
-            className="btn btn-success "
+            className="btn btn-success my-3"
           >
-            Close{" "}
+            Save
           </button>
         </div>
         <div className="form-group my-3">
@@ -62,11 +73,12 @@ const Prescription = (props) => {
             <b>Diagnosis</b>
           </label>
           <input
-            value={props?.prescriptionName}
+            value={"Diagnosis"}
+            defaultValue={"Diagnosis"}
             type="text"
             required
             onChange={handlePrescriptionName}
-            className="form-control"
+            className="form-control d-none"
             name="prescriptionName"
           />
         </div>
@@ -90,7 +102,7 @@ const Prescription = (props) => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="">
-                    <b>Dose / Instructions</b>
+                    <b>Dose / Frequency</b>
                   </label>
                   <input
                     required
@@ -109,9 +121,10 @@ const Prescription = (props) => {
                     required
                     value={medications.quantity}
                     onChange={handleChange}
-                    type="text"
+                    type="number"
                     className="form-control"
                     name="quantity"
+                    min={1}
                   />
                 </div>
                 <div className="form-group">
@@ -127,7 +140,7 @@ const Prescription = (props) => {
                     name="repeats"
                   />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="">
                     <b>LU Code</b>
                   </label>
@@ -138,56 +151,54 @@ const Prescription = (props) => {
                     className="form-control"
                     name="luCode"
                   />
-                </div>
-                <button
-                  type="submit"
-                  className="btn btn-primary my-3"
-                >
+                </div> */}
+                <button type="submit" className="btn btn-primary my-3">
                   Add Medication
                 </button>
               </div>
             </form>
           </div>
         </div>
-        <div className="card my-3">
+        <div className="card">
           <div className="card-header">
-            <h3 className="title">Prescriptions</h3>
-            <div className="card-body">
-              <table className="table">
-                <thead>
-                  <tr>
-                    <th>Medication</th>
-                    <th>Dose / Instructions</th>
-                    <th>Quantity</th>
-                    <th>Repeats</th>
-                    <th>LU Code</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {props?.prescription?.medicalInstruction?.map((x, index) => {
-                    return (
-                      <tr key={index}>
-                        <td>{x?.medicineName}</td>
-                        <td>{x?.doseInstcruction}</td>
-                        <td>{x?.quantity}</td>
-                        <td>{x?.repeats}</td>
-                        <td>{x?.luCode}</td>
-                        <td>
-                          <ul className="list-group">
-                            <li
-                              onClick={()=>{handleDeletePrescription(x?.uniqueId)}}
-                              className="list-group-item btn btn-danger">
-                              Delete
-                            </li>
-                          </ul>
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <h3 className="card-title">Prescriptions</h3>
+          </div>
+          <div className="card-body">
+            <table className="table">
+              <thead>
+                <tr>
+                  <th>Medication</th>
+                  <th>Dose</th>
+                  <th>Quantity</th>
+                  <th>Repeats</th>
+                  {/* <th>Code</th> */}
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                {props?.prescription?.medicalInstruction?.map((x, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{x?.medicineName}</td>
+                      <td>{x?.doseInstcruction}</td>
+                      <td>{x?.quantity}</td>
+                      <td>{x?.repeats}</td>
+                      {/* <td>{x?.luCode}</td> */}
+                      <td>
+                        <button
+                          onClick={() => {
+                            handleDeletePrescription(x?.uniqueId);
+                          }}
+                          className="btn btn-danger btn-sm"
+                        >
+                          Delete
+                        </button>
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>

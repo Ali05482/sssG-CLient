@@ -76,10 +76,8 @@ const Schedules = ({ schedulingView = false, doctorId, setSelectedDoctor, setVis
           <ProgressSpinner style={{ width: '180px', height: '180px' }} animationDuration=".5s" />
         </div>}
         <Modal
-          fullscreen
           isOpen={processDoctorVisible}
           className="modal-dialog-centered"
-          size="xxl"
         >
           <ModalHeader style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} toggle={() => setProcessDoctorVisible(false)}>
             <h5 style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.inputColor}} className="text-center">Doctor Reserved Appointments</h5>

@@ -81,7 +81,7 @@ const LoginComponent = () => {
                 <div className="col-md-8">
                   <div className="mb-4">
                     <h3>Sign In</h3>
-                    <p className="mb-4">Lorem ipsum dolor sit amet elit. Sapiente sit aut eos consectetur adipisicing.</p>
+                    <p className="mb-4">Sign In To Fitwell PK</p>
                   </div>
                   <form onSubmit={handleLogin}>
                     <div className="form-group first">

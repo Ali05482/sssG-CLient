@@ -30,8 +30,6 @@ const CollectHistory = () => {
 
     useEffect(() => {
         fetchAppointments();
-
-
         const intervalId = setInterval(() => {
             fetchAppointments();
         }, 15000);
@@ -43,7 +41,6 @@ const CollectHistory = () => {
 
     const handleMeetingId = (meetingId, questionaire) => {
         if (_?.isUndefined(questionaire?._id)) {
-            // warning the question is empty you still go to the meeting?
             Swal.fire({
                 icon: "warning",
                 title: "History is not being created, do you still want to go to the meeting?",
@@ -68,20 +65,19 @@ const CollectHistory = () => {
     return (
         <FullLayout>
             <div className="container">
-                <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className="card">
+                <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} className="card">
                     <div className="card-header">
                         <h3 className="card-title">
                             Create Patient History
                         </h3>
                         <div className="card-body">
-                            <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className="card-body">
+                            <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} className="card-body">
                                 <div className="mb-3">
                                     <label htmlFor="">Search</label>
                                     <input
                                         style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }}
                                         type="text"
                                         className="form-control"
-                                        placeholder="Search by Name or Phone Contact"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />

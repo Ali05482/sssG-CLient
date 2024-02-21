@@ -1,11 +1,8 @@
 
-import { MDBDataTable } from 'mdbreact';
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
-import MainContext from '../../../../../src/app/context/context';
-import FullLayout from '../../../../../src/layouts/FullLayout';
-import { ProgressSpinner } from 'primereact/progressspinner';
-import styles from "/styles/Appointment.module.css";
+import MainContext from '../../../src/app/context/context';
+import FullLayout from '../../../src/layouts/FullLayout';
 import _ from 'lodash';
 const Scheduling = () => {
     const global = useContext(MainContext);
@@ -47,9 +44,6 @@ const Scheduling = () => {
     );
     return (
         <FullLayout>
-            {global.pageLoader.primeReactLoader && <div className={styles.overlay}>
-                <ProgressSpinner style={{ width: '180px', height: '180px' }} animationDuration=".5s" />
-            </div>}
             <div className="container">
                 <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className="card">
                     <div className="card-header">
@@ -85,7 +79,7 @@ const Scheduling = () => {
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.firstName + " " + x?.patient?.lastName}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.phoneNumber}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
-                                                    <a className='btn btn-success' target="_blank" href={`./schedule?questionnaireId=${encodeURIComponent(x?.questionaire?._id)}&&appointmentId=${x?._id}`} rel="noreferrer">
+                                                    <a className='btn btn-success' target="_blank" href={`./schedule?questionnaireId=${encodeURIComponent(x?.questionaire?._id)}&&appointmentId=${x?._id}&&chiefComplaint=${encodeURIComponent(x?.details)}&&clinic=${encodeURIComponent(x?.clinic?.name)}&&location=${encodeURIComponent(x?.clinic?.location)}&&city=${encodeURIComponent(x?.clinic?.city)}&&patient=${encodeURIComponent(JSON?.stringify(x?.patient))}`} rel="noreferrer">
                                                         Schedule
                                                     </a>
                                                 </td>

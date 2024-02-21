@@ -1,8 +1,13 @@
-export const noteBuilder = (note, sickNote, prescription, summary, referral, requisition) => {
+export const noteBuilder = (note, sickNote, prescription, summary, referral, requisition,appointment, lastVisit) => {
+    console.log("appointmentFromAppoint", appointment)
     return `
+    <p><strong>Chief Complaint</strong></p>
+<ul>
+    <li>${appointment?.details}</li>
+</ul><br>
       <p><strong>Triage</strong></p>
 <ul>
-    <li>last visit with a doctor more than 6 months ago</li>
+    <li>${lastVisit}</li>
 </ul><br>
 <table style="border-collapse: collapse; width: 100.078%;">
     <tbody>

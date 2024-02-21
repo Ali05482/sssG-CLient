@@ -12,7 +12,9 @@ const Note = ({ config, appointmentId, questionnaires }) => {
   const [vitals, setVitals] = useState({});
   const [sickNote, setSickNote] = useState({});
   const [prescription, setPrescription] = useState({});
-  const [loading, setLoading] = useState(false)
+  const [appointment, setAppointment] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [lastVisit, setLastVisit] = useState({});
   const [appointmentReferral, setAppointmentReferral] = useState({
     id: "",
     wasBefore: false,
@@ -30,7 +32,56 @@ const Note = ({ config, appointmentId, questionnaires }) => {
     id: ""
   });
 
-
+   const getAppointment = async (appointmentId)=>{
+       try {
+        const report  = await global?.getReport(appointmentId);
+        if(report?.status){
+            if(report?.result?.data){
+                setAppointmentReferral({
+                    wasBefore: true,
+                    appointmentId: appointmentId,
+                    id: report?.result?.data?.referral?._id,
+                    previousDoctorId: report?.result?.data?.referral?.previousDoctorId,
+                    referralDoctorId: report?.result?.data?.referral?.referralDoctorId,
+                    patientId: report?.result?.data?.referral?.patientId,
+                    data: report?.result?.data?.referral?.data,
+                    questionnaireId: report?.result?.data?.referral?.questionnaireId                   
+                });
+                setRequisition({
+                    wasBefore: true,
+                    appointmentId: appointmentId,
+                    id: report?.result?.data?.requisition?._id,
+                    data: report?.result?.data?.requisition?.data
+                });
+                setSickNote({
+                    wasBefore: true,
+                    appointmentId: appointmentId,
+                    id: report?.result?.data?.sickNote?._id,
+                    data: report?.result?.data?.sickNote?.data,
+                    startDate: report?.result?.data?.sickNote?.startDate,
+                    endDate: report?.result?.data?.sickNote?.endDate
+                });
+                setPrescription({
+                    wasBefore: true,
+                    appointmentId: appointmentId,
+                    id: report?.result?.data?.prescription?._id,
+                    prescriptionName: report?.result?.data?.prescription?.prescriptionName,
+                    medicalInstruction: report?.result?.data?.prescription?.medicalInstruction,
+                    data: report?.result?.data?.prescription?.data
+                });
+                setVitals(report?.result?.data?.vitals);
+                setAppointment(report?.result?.data);
+                setLastVisit(report?.result?.lastVisit);
+            }
+        }
+       } catch (error) {
+           Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!, While Fetching Appointment',
+            });
+       }
+   }
 
   const getRequisition = async (appointmentId) => {
     try {
@@ -187,15 +238,16 @@ const Note = ({ config, appointmentId, questionnaires }) => {
     }
   };
   useEffect(() => {
-    getSickNote(appointmentId);
-    getPrescription(appointmentId);
-    getVitalsByAppointmentId(appointmentId);
-    getReferral(appointmentId);
-    getRequisition(appointmentId);
+    // getSickNote(appointmentId);
+    // getPrescription(appointmentId);
+    // getVitalsByAppointmentId(appointmentId);
+    // getReferral(appointmentId);
+    // getRequisition(appointmentId);
+    getAppointment(appointmentId);
   }, [appointmentId]);
   useEffect(() => {
     const summary = summaryBuilder(questionnaires, global);
-    setNoteContent(noteBuilder({ vitals }, sickNote?.data, prescription?.data, summary, appointmentReferral?.data, requisition?.data))
+    setNoteContent(noteBuilder({ vitals }, sickNote?.data, prescription?.data, summary, appointmentReferral?.data, requisition?.data, appointment, lastVisit))
   }, [questionnaires, sickNote?.data, prescription?.data, appointmentReferral?.data,requisition?.data]);
   return (
     <>

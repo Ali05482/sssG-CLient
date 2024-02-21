@@ -7,14 +7,14 @@ const GetVitals = (props) => {
     const [formData, setFormData] = useState({
         patient: props?.patientId,
         appointment: props?.appointmentId,
-        bodyTemperature: '',
-        heartRate: '',
-        respiratoryRate: '',
-        bloodPressure: '',
-        oxygenSaturation: '',
-        height: '',
-        weight: '',
-        bloodGlucose: '',
+        bodyTemperature: 0,
+        heartRate: 0,
+        respiratoryRate: 0,
+        bloodPressure: 0,
+        oxygenSaturation: 0,
+        height: 0,
+        weight: 0,
+        bloodGlucose: 0,
     });
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -25,43 +25,42 @@ const GetVitals = (props) => {
         try {
             console.log(formData)
             e?.preventDefault();
-           const vitals =  await global.addVitals(formData, "callback");
-           console.log("vitals", vitals)
-           if(vitals?.status){
-            if(vitals?.result?.status){
-                Swal.fire({
-                    icon: "success",
-                    title: "Vitals Added Successfully",
-                });
-                setTimeout(() => {
-                    window.close()
-                   }, 1500);
-            } else
-            {
+            const vitals = await global.addVitals(formData, "callback");
+            console.log("vitals", vitals)
+            if (vitals?.status) {
+                if (vitals?.result?.status) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Vitals Added Successfully",
+                    });
+                    setTimeout(() => {
+                        window.close()
+                    }, 1500);
+                } else {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Something Went Wrong, contact admin",
+                        text: vitals?.result?.msg
+                    });
+                    if (vitals?.result?.msg == "Vitals already collected against this appointment") {
+                        setTimeout(() => {
+                            window.close()
+                        }, 1500);
+                    }
+                }
+            }
+            else {
                 Swal.fire({
                     icon: "error",
                     title: "Something Went Wrong, contact admin",
-                    text:vitals?.result?.msg
-                });
-                if(vitals?.result?.msg=="Vitals already collected against this appointment"){
+                    text: vitals?.result?.msg
+                })
+                if (vitals?.result?.msg == "Vitals already collected against this appointment") {
                     setTimeout(() => {
                         window.close()
-                       }, 1500);
+                    }, 1500);
                 }
             }
-           }
-           else {
-            Swal.fire({
-                icon: "error",
-                title: "Something Went Wrong, contact admin",
-                text:vitals?.result?.msg
-            })
-            if(vitals?.result?.msg=="Vitals already collected against this appointment"){
-               setTimeout(() => {
-                window.close()
-               }, 1500);
-            }
-           }
         } catch (error) {
             Swal.fire({
                 icon: "error",
@@ -91,7 +90,9 @@ const GetVitals = (props) => {
                                         value={formData.bodyTemperature}
                                         onChange={handleChange}
                                         placeholder="e.g. 98.6"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
+                                        step="any"
                                         required
                                     />
                                 </div>
@@ -107,7 +108,9 @@ const GetVitals = (props) => {
                                         value={formData.heartRate}
                                         onChange={handleChange}
                                         placeholder="e.g. 72"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
+
                                         required
                                     />
                                 </div>
@@ -123,7 +126,8 @@ const GetVitals = (props) => {
                                         value={formData.respiratoryRate}
                                         onChange={handleChange}
                                         placeholder="e.g. 18"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
                                         required
                                     />
                                 </div>
@@ -141,7 +145,8 @@ const GetVitals = (props) => {
                                         value={formData.bloodPressure}
                                         onChange={handleChange}
                                         placeholder="e.g. 128/80"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
                                         required
                                     />
                                 </div>
@@ -157,7 +162,8 @@ const GetVitals = (props) => {
                                         value={formData.oxygenSaturation}
                                         onChange={handleChange}
                                         placeholder="e.g. 95"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
                                         required
                                     />
                                 </div>
@@ -173,7 +179,8 @@ const GetVitals = (props) => {
                                         value={formData.height}
                                         onChange={handleChange}
                                         placeholder="e.g. 5.8"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
                                         required
                                     />
                                 </div>
@@ -191,7 +198,8 @@ const GetVitals = (props) => {
                                         value={formData.weight}
                                         onChange={handleChange}
                                         placeholder="e.g. 180"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
                                         required
                                     />
                                 </div>
@@ -200,14 +208,15 @@ const GetVitals = (props) => {
                                 <div className="form-group">
                                     <label htmlFor="bloodGlucose">Blood Glucose (mg/dL):</label>
                                     <input
-                                    style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }}
+                                        style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }}
                                         type="number"
                                         className="form-control"
                                         name="bloodGlucose"
                                         value={formData.bloodGlucose}
                                         onChange={handleChange}
                                         placeholder="e.g. 70"
-                                        min="1"
+                                        min="0"
+                                        defaultValue={0}
                                         required
                                     />
                                 </div>

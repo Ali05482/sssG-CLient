@@ -1,5 +1,4 @@
 
-import { MDBDataTable } from 'mdbreact';
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import MainContext from '../../../../../src/app/context/context';
@@ -39,11 +38,17 @@ const Appointments = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const filteredAppointments = appointments.filter((x) =>
+    const filteredAppointments = appointments?.filter((x) =>
         x?.patient?.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.patient?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        x?.doctor?.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        x?.doctor?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.patient?.phoneNumber.includes(searchTerm)
     );
+    const handleConnection = async (meetingId, id) => {
+        await global?.notifyDoctor({ appointmentId: id });
+        window.open(meetingId, '_blank');
+    }
     return (
         <FullLayout>
             <div className="container">
@@ -69,22 +74,26 @@ const Appointments = () => {
                                 <table style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className='table'>
                                     <thead>
                                         <tr>
-                                        <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>#</b></th>
+                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>#</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Name</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Phone Contact</b></th>
+                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Doctor</b></th>
+                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Time</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Action</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {filteredAppointments.map((x, index) => (
+                                        {filteredAppointments?.map((x, index) => (
                                             <tr key={index}>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{index + 1}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.firstName + " " + x?.patient?.lastName}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.phoneNumber}</td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.doctor?.firstName + " " + x?.doctor?.lastName}</td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{global?.formatTime(x?.time)}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
-                                                    <a className='btn btn-success' target="_blank" href={`${x?.meeetingId}`} rel="noreferrer">
+                                                    <button onClick={() => handleConnection(x?.meeetingId, x?._id)} className='btn btn-success' rel="noreferrer">
                                                         Process
-                                                    </a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         ))}

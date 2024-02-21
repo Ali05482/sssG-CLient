@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import Referral from "./Referral";
 import _, { set } from "lodash";
 import { requisitionBuilder } from "../../../shared/report/Requisition";
+import { doctorNoteBuilder } from "../../../shared/report/DoctorNote";
 
 const Documents = ({
   config,
@@ -32,6 +33,8 @@ const Documents = ({
   const [referralContentVisible, setReferralContentVisible] = useState(false);
   const [requisitionContentVisible, setRequisitionContentVisible] =
     useState(false);
+  const [doctorNoteContentVisible, setDoctorNoteContentVisible] =
+    useState(false);
   const [sickNote, setSickNote] = useState({
     wasBefore: false,
     appointmentId: "",
@@ -45,7 +48,7 @@ const Documents = ({
     wasBefore: false,
     appointmentId: "",
     id: "",
-    prescriptionName: "",
+    prescriptionName: "Diagnosis",
     medicalInstruction: [],
     data: "",
   });
@@ -60,6 +63,12 @@ const Documents = ({
     questionnaireId: "",
   });
   const [requisition, setRequisition] = useState({
+    data: "",
+    wasBefore: false,
+    appointmentId: "",
+    id: "",
+  });
+  const [doctorNote, setDoctorNote] = useState({
     data: "",
     wasBefore: false,
     appointmentId: "",
@@ -186,6 +195,27 @@ const Documents = ({
       });
     }
   };
+  const getDoctorNote = async (appointmentId) => {
+    try {
+      const requisition = await global?.getDoctorNote(appointmentId);
+      if (requisition?.status) {
+        if (requisition?.result?.data) {
+          setDoctorNote({
+            wasBefore: true,
+            appointmentId: appointmentId,
+            id: requisition?.result?.data?._id,
+            data: requisition?.result?.data?.data,
+          });
+        }
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!, While Fetching Requisition",
+      });
+    }
+  };
   const fetchDoctors = async () => {
     try {
       const allDoctors = await global?.getAllDoctors(
@@ -250,6 +280,18 @@ const Documents = ({
       });
     }
   };
+  const handleSubmitDoctorNote = async () => {
+    try {
+      await global?.createAndUpdateDoctorNote(doctorNote);
+      setRequisition({ ...doctorNote, wasBefore: true });
+      await getDoctorNote(appointmentId);
+    } catch (error) {
+      Swal.fire({
+        icon: "warning",
+        text: "Something Went Wrong, Contact Admin Please",
+      });
+    }
+  };
   const newRequisition = () => {
     const newRequisition = requisitionBuilder(
       updateQuestionnaires?.appointment,
@@ -258,6 +300,17 @@ const Documents = ({
     setRequisition({
       ...requisition,
       data: newRequisition,
+      appointmentId: appointmentId,
+    });
+  };
+  const newDoctorNote = () => {
+    const newDoctorNotes = doctorNoteBuilder(
+      updateQuestionnaires?.appointment,
+      global?.user?.currentUser
+    );
+    setDoctorNote({
+      ...doctorNote,
+      data: newDoctorNotes,
       appointmentId: appointmentId,
     });
   };
@@ -270,6 +323,8 @@ const Documents = ({
       setIsReferralOpen(!isReferralOpen);
     } else if (type === "requisition") {
       newRequisition();
+    } else if (type === "doctorNoteBuilder") {
+      newDoctorNote();
     }
   };
   const handleDownload = async (htmlString, title) => {
@@ -297,6 +352,7 @@ const Documents = ({
     getPrescription(appointmentId);
     getReferral(appointmentId);
     getRequisition(appointmentId);
+    getDoctorNote(appointmentId);
     if (!_?.isEmpty(updateQuestionnaires?.appointment?.patient?._id)) {
       fetchDoctors();
     }
@@ -313,7 +369,13 @@ const Documents = ({
         {!care && (
           <>
             <br />
-            <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+            <div
+              style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.color,
+              }}
+              className="card"
+            >
               <div className="card-header">
                 <h5 className="title">Create Document</h5>
               </div>
@@ -354,12 +416,13 @@ const Documents = ({
                   </div>
                   <div className="col-md-5 mt-3">
                     <div className="input-group">
-                      <input
-                      style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.inputColor}}
-                        className="form-control"
-                        type="file"
-                        id="formFile"
-                      />
+                      <button
+                        type="button"
+                        onClick={() => handleDocuments("doctorNoteBuilder")}
+                        className="btn btn-outline-info"
+                      >
+                        Doctor Note
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -367,9 +430,15 @@ const Documents = ({
             </div>
           </>
         )}
-        <div  id="accordion">
+        <div id="accordion">
           {sickNote?.data && (
-            <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+            <div
+              style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.color,
+              }}
+              className="card"
+            >
               <div className="card-header" id={`headingSickNote`}>
                 <h5 className="mb-0">
                   <div className="row">
@@ -437,7 +506,13 @@ const Documents = ({
             </div>
           )}
           {prescription?.data && (
-            <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+            <div
+              style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.color,
+              }}
+              className="card"
+            >
               <div className="card-header" id={`headingPrescriptionContent`}>
                 <h5 className="mb-0">
                   <div className="row">
@@ -517,7 +592,13 @@ const Documents = ({
             </div>
           )}
           {referral?.data && (
-            <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+            <div
+              style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.color,
+              }}
+              className="card"
+            >
               <div className="card-header" id={`headingReferralContent`}>
                 <h5 className="mb-0">
                   <div className="row">
@@ -589,7 +670,13 @@ const Documents = ({
             </div>
           )}
           {requisition?.data && (
-            <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+            <div
+              style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.color,
+              }}
+              className="card"
+            >
               <div className="card-header" id={`headingReferralContent`}>
                 <h5 className="mb-0">
                   <div className="row">
@@ -664,6 +751,84 @@ const Documents = ({
               </div>
             </div>
           )}
+          {doctorNote?.data && (
+            <div
+              style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.color,
+              }}
+              className="card"
+            >
+              <div className="card-header" id={`headingReferralContent`}>
+                <h5 className="mb-0">
+                  <div className="row">
+                    <div className="col-md-6">
+                      <span className="glowing-text text-primary">
+                        Doctor Note Management
+                      </span>
+                    </div>
+                    <div className="col-md-3">
+                      <button
+                        className="btn btn-secondary"
+                        onClick={() =>
+                          setDoctorNoteContentVisible(!doctorNoteContentVisible)
+                        }
+                        aria-expanded={
+                          doctorNoteContentVisible ? "true" : "false"
+                        }
+                        aria-controls={`collapseDoctorNoteManagement`}
+                      >
+                        Doctor Note
+                      </button>
+                    </div>
+                    <div className="col-md-3">
+                      {!care && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={handleSubmitDoctorNote}
+                            className="btn btn-primary"
+                          >
+                            {doctorNote?.wasBefore
+                              ? "Update Doctor Note"
+                              : "Add Doctor Note"}
+                          </button>
+                          <div className="mx-1"></div>
+                          <div className="my-1"></div>
+                        </>
+                      )}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          handleDownload(doctorNote?.data, "DoctorNote");
+                        }}
+                        className="btn btn-success"
+                      >
+                        Print & Download
+                      </button>
+                    </div>
+                  </div>
+                </h5>
+              </div>
+              <div
+                id={`collapseDoctorNoteManagement`}
+                className={`collapse ${doctorNoteContentVisible ? "show" : ""}`}
+                aria-labelledby={`headingReferral`}
+                data-parent="#accordion"
+              >
+                <div className="card-body">
+                  <JoditEditor
+                    value={doctorNote?.data}
+                    config={config}
+                    tabIndex={1}
+                    onBlur={(newContent) =>
+                      setDoctorNote({ ...doctorNote, data: newContent })
+                    }
+                  />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       {/* </div> */}
@@ -693,6 +858,7 @@ const Documents = ({
         </ModalHeader>
         <ModalBody>
           <Prescription
+            handleSubmitPrescription={handleSubmitPrescription}
             setPrescriptionContent={setPrescriptionContent}
             getCurrentDate={getCurrentDate}
             prescription={prescription}

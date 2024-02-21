@@ -51,7 +51,7 @@ import getRequisitionByAppointmentId from "./report/getRequisitionByAppointmentI
 import getAppointmentsForVitals from "./Appointment/getAppointmentsForVitals";
 import getAppointmentsForScheduling from "./Appointment/getAppointmentsForScheduling";
 import getDoctorsForScheduling from "./doctors/getDoctorsForScheduling";
-import getOverAllDoctorAvailability from "./doctors/getOverAllDoctorAvailability"; 
+import getOverAllDoctorAvailability from "./doctors/getOverAllDoctorAvailability";
 import addDoctorAvailability from "./doctors/addDoctorAvailability";
 import updateAppointment from "./Appointment/updateAppointment";
 import getDoctorReservedAppointments from "./Appointment/getDoctorReservedAppointments";
@@ -59,11 +59,14 @@ import getAppointmentsForCare from "./Appointment/getAppointmentsForCare";
 import getQuestionnaireFileByName from "./questionaires/getQuestionnaireFileByName";
 import getAppointmentsForMeeting from "./questionaires/getAppointmentsForMeeting";
 import updateAppointmentStatus from "./Appointment/updateAppointmentStatus";
-
-
-
-// import getAllUsers from "./users/getAllUsers";
-
+import addAttendant from "./attendant/addAttendant";
+import getAllAttendants from "./attendant/getAllAttendants";
+import notifyDoctor from "./Appointment/notifyDoctor";
+import getDoctorsTodaysAppointments from "./Appointment/getDoctorsTodaysAppointments";
+import updateInConnectionForAppointment from "./Appointment/updateInConnectionForAppointment";
+import getReport from "./report/getReport";
+import getDoctorNote from "./Appointment/getDoctorNote";
+import createAndUpdateDoctorNote from "./Appointment/createAndUpdateDoctorNote";
 let pageLoader;
 
 const Providor = (props) => {
@@ -73,30 +76,30 @@ const Providor = (props) => {
   const [questionaire, setQuestionaire] = useState([]);
   const [mode, setMode] = useState("dark");
   const darkMode = {
-    backgroundColor:"#272B33",
-    color:"#6C757D",
-    bodyColor:"#0A0C10",
-    inputColor:"#FFF"
+    backgroundColor: "#272B33",
+    color: "#6C757D",
+    bodyColor: "#0A0C10",
+    inputColor: "#FFF"
   };
   const lightMode = {
-    backgroundColor:"#F8F9FA",
-    color:"#000",
-    bodyColor:"#B3B3B3",
-    inputColor:"#000"
+    backgroundColor: "#F8F9FA",
+    color: "#000",
+    bodyColor: "#B3B3B3",
+    inputColor: "#000"
   }
   const [theme, setTheme] = useState({
-    backgroundColor:"#272B33",
-    color:"#6C757D",
-    bodyColor:"#0A0C10",
-    inputColor:"#FFF"
+    backgroundColor: "#272B33",
+    color: "#6C757D",
+    bodyColor: "#0A0C10",
+    inputColor: "#FFF"
   })
-  const toggleMode = ()=>{
-    if(mode==="dark"){
+  const toggleMode = () => {
+    if (mode === "dark") {
       setMode("light")
       setTheme(lightMode)
-    } else if(mode==="light"){
+    } else if (mode === "light") {
       setMode("dark")
-      setTheme(darkMode)  
+      setTheme(darkMode)
     }
   }
   const questionaireState = {
@@ -194,7 +197,15 @@ const Providor = (props) => {
     theme,
     toggleMode,
     mode,
-    updateAppointmentStatus
+    updateAppointmentStatus,
+    addAttendant,
+    getAllAttendants,
+    notifyDoctor,
+    getDoctorsTodaysAppointments,
+    updateInConnectionForAppointment,
+    getReport,
+    getDoctorNote,
+    createAndUpdateDoctorNote
   };
   return (
     <MainContext.Provider value={data}>{props.children}</MainContext.Provider>

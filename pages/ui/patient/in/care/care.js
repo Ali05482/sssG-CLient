@@ -3,7 +3,7 @@ import MainContext from '../../../../../src/app/context/context';
 import FullLayout from '../../../../../src/layouts/FullLayout';
 import Documents from '../../../../../src/components/report/documents/documents';
 
-const Care = ({ questionnaireId, appointmentId, patientName, patientContact,gender }) => {
+const Care = ({ questionnaireId, appointmentId, patientName, patientContact, gender }) => {
     const global = useContext(MainContext)
     const [questionnaires, setQuestionnaires] = useState({});
     const [config, setConfig] = useState({
@@ -29,6 +29,18 @@ const Care = ({ questionnaireId, appointmentId, patientName, patientContact,gend
             })
         }
     };
+    const handleChangeAppointmentStatus = async () => {
+        try {
+            await global?.updateAppointmentStatus({ status: "doctorApproved" }, appointmentId);
+        } catch (error) {
+            setLoading(false)
+            Swal.fire({
+                icon: 'error',
+                title: 'Oops...',
+                text: 'Something went wrong!, While Downloading PDF, Please try again....',
+            })
+        }
+    };
     useEffect(() => {
         setConfig({
             readonly: false,
@@ -41,15 +53,26 @@ const Care = ({ questionnaireId, appointmentId, patientName, patientContact,gend
         <>
             <FullLayout>
                 <div className="container">
-                    <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+                    <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className="card">
+                        <div className="d-flex justify-content-end">
+                            <button
+                                onClick={() => {
+                                    handleChangeAppointmentStatus()
+                                }}
+                                type="button"
+                                className="btn btn-success my-3"
+                            >
+                                Mark As Complete
+                            </button>
+                        </div>
                         <div className="card-header">
                             <h5 className="card-title">
-                            Patient Name: <b>{gender=="male"?"Mr. ":"Mrs. "} {patientName}</b>
-                                
+                                Patient Name: <b>{gender == "male" ? "Mr. " : "Mrs. "} {patientName}</b>
+
                             </h5>
                             <h5 className="card-title">
-                            Patient Contact: <b>{patientContact}</b>
-                                
+                                Patient Contact: <b>{patientContact}</b>
+
                             </h5>
                         </div>
                         <div className="card-body">
@@ -79,7 +102,7 @@ export async function getServerSideProps(context) {
     const patientContact = query?.patientContact || '';
     const gender = query?.gender || '';
     return {
-        props: { questionnaireId, appointmentId, patientName, patientContact,gender },
+        props: { questionnaireId, appointmentId, patientName, patientContact, gender },
     };
 }
 export default Care

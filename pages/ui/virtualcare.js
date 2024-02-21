@@ -13,26 +13,41 @@ import {
 import MyCalendar from "../../src/components/dashboard/Calendar";
 import MainContext from "../../src/app/context/context";
 import { useRouter } from "next/router";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import Appointment from "../../src/components/dashboard/Appointment";
-import styles from "/styles/Appointment.module.css";
 import Swal from "sweetalert2";
-import { ProgressSpinner } from "primereact/progressspinner";
-import Link from "next/link";
 import FullLayout from "../../src/layouts/FullLayout";
 import DailyAppointment from "./DailyAppointment ";
+
+
 const VirtualCare = () => {
+  const audioRef = useRef(null);
   const router = useRouter();
   const global = useContext(MainContext);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [allAppointments, setAllAppointments] = useState(false);
   const [todaysAppointments, setTodaysAppointments] = useState([]);
+  const [liveAppointmentsSounds, setLiveAppointmentsSounds] = useState([]);
+  const getDoctorsTodaysAppointments = async () => {
+    try {
+      const allAppointments = await global?.getDoctorsTodaysAppointments();
+      if (allAppointments?.status) {
+        setTodaysAppointments(allAppointments?.result?.data)
+      }
+    } catch (error) {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "Something went wrong!, While Fetching Doctors",
+      });
+    }
+  }
   const fetchAllAppointments = async () => {
     try {
-      const allAppointments = await global.getAllAppointments();
-      if (allAppointments.status) {
-        setAllAppointments(allAppointments.result.data);
-        filterTodaysAppointments(allAppointments.result.data.docs)
+      const allAppointments = await global?.getAllAppointments();
+      if (allAppointments?.status) {
+        setAllAppointments(allAppointments?.result?.data);
+        filterTodaysAppointments(allAppointments?.result?.data?.docs)
       }
     } catch (error) {
       console.log(error.message);
@@ -46,7 +61,7 @@ const VirtualCare = () => {
 
   const filterTodaysAppointments = (allAppointments) => {
     const today = new Date();
-    const filteredAppointments = allAppointments.filter((appointment) => {
+    const filteredAppointments = allAppointments?.filter((appointment) => {
       const appointmentDate = new Date(appointment.date);
       return (
         appointmentDate.getDate() === today.getDate() &&
@@ -54,7 +69,7 @@ const VirtualCare = () => {
         appointmentDate.getFullYear() === today.getFullYear()
       );
     });
-    setTodaysAppointments(filteredAppointments);
+    // setTodaysAppointments(filteredAppointments);
   };
 
   useEffect(() => {
@@ -62,74 +77,86 @@ const VirtualCare = () => {
       router.push("/auth/login");
     }
     fetchAllAppointments();
+    getDoctorsTodaysAppointments();
     const intervalId = setInterval(() => {
-      fetchAllAppointments();
+      getDoctorsTodaysAppointments();
     }, 15000);
     return () => {
       clearInterval(intervalId);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const goto = ()=>{
-    window.location.href = "http://localhost:3001/app"
-  }
+  const checkIfAnyAppointmentIsLive = () => {
+
+    const liveAppointments = todaysAppointments?.filter(x => x?.isLive == true && x?.inConnection == false);
+    if (liveAppointments?.length > 0) {
+      for (let i = 0; i < liveAppointments?.length; i++) {
+        if (!liveAppointmentsSounds?.includes(liveAppointments[i]?._id)) {
+          console.log("liveAppointments[i]", liveAppointments[i]);
+          playAudio()
+          setLiveAppointmentsSounds([...liveAppointmentsSounds, liveAppointments[i]?._id]);
+        }
+      }
+    }
+  };
+  useEffect(() => {
+    checkIfAnyAppointmentIsLive();
+    const intervalId = setInterval(() => {
+      checkIfAnyAppointmentIsLive();
+    }, 1500);
+    return () => {
+      clearInterval(intervalId);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [todaysAppointments]);
+  const playAudio = () => {
+    audioRef.current.play();
+  };
   return (
     <FullLayout>
       <div>
         <Row >
-          {global?.user?.currentUser?.role!=="patient"?<>
-          <Col xs="12" md="12" sm="12">
-            <Card style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}}>
+
+          <Col xs="18" md="18" sm="18">
+            <audio
+              style={{ display: "none" }}
+              src="/audio/notification.wav"
+              controls
+              ref={audioRef}
+              autoPlay={false}
+            ></audio>
+            <Card style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
               <CardBody className="virtualup">
                 <div className="virtualitybuttons">
-                  {/* <Button  onClick={goto} color="secondary" outline>
-                    <i className="bi bi-tv-fill"></i> Preview Virtual Care
-                    <Badge color="secondary"></Badge>
-                  </Button> */}
                   <Button
-                  
                     color="secondary"
                     className="ms-3"
                     outline
                     onClick={() => setIsModalOpen(!isModalOpen)}
                   >
-                    <i className="bi bi-plus-circle"></i> Manually Add Appointment{" "}
-                  <Badge color="secondary"></Badge>
+                    <i className="bi bi-plus-circle"></i> Manually Add Appointment
+                    <Badge color="secondary"></Badge>
                   </Button>
 
                   <Modal
-                  
+
                     isOpen={isModalOpen}
                     className="modal-dialog-centered"
                     size="xl"
                   >
-                    <ModalHeader style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} toggle={() => setIsModalOpen(!isModalOpen)}>
+                    <ModalHeader style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} toggle={() => setIsModalOpen(!isModalOpen)}>
                       <h5 className="text-center">Manually Add Appointment</h5>
                     </ModalHeader>
-                    <ModalBody style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}}>
+                    <ModalBody style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
                       <Appointment />
                     </ModalBody>
                   </Modal>
-                  {/* <Button color="secondary" className="ms-3" outline>
-                    <i className="bi bi-cloud-arrow-down-fill"></i> Appointment
-                    Report <Badge color="secondary"></Badge>
-                  </Button>
-                  <Button color="secondary" className="ms-3" outline>
-                    Test Virtual Visit <Badge color="secondary"></Badge>
-                  </Button> */}
                 </div>
-                {/* <div className="virtualitybuttons">
-                  <Button color="secondary" className="ms-3" outline>
-                    <i className="bi bi-gear-fill"></i>
-                    <Link href="/ui/general">Settings</Link>
-                    <Badge color="secondary"></Badge>
-                  </Button>
-                </div> */}
               </CardBody>
             </Card>
           </Col>
-          <Col  xs="12" md="4" sm="12">
-            <Card style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="virtualappoint">
+          <Col xs="18" md="18" sm="18">
+            <Card style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} className="virtualappoint">
               <CardTitle tag="h6" className="border-bottom mb-0 virtualpage">
                 <div className="mx-3">Today s Appointment</div>
                 <div className="virtualicon">
@@ -140,7 +167,11 @@ const VirtualCare = () => {
                 <div>
                   {todaysAppointments?.length > 0 ? (
                     todaysAppointments.map((appointment, index) => (
-                      <DailyAppointment key={index} appointment={appointment} fromCalendar={true                          }/>
+                      <>
+                        <div className="my-3">
+                          <DailyAppointment key={index} appointment={appointment} fromCalendar={true} />
+                        </div>
+                      </>
                     ))
                   ) : (
                     <h6>
@@ -152,9 +183,8 @@ const VirtualCare = () => {
               </CardBody>
             </Card>
           </Col>
-          </>:''}
-         
-          <Col style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} xs="12" md="8">
+
+          <Col style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }} xs="12" md="8">
             <MyCalendar allAppointments={allAppointments} />
           </Col>
         </Row>

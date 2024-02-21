@@ -56,7 +56,7 @@ const Clinic = () => {
             </div>}
             <div className="row">
                 <div className="col-md-12">
-                    <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.color}} className="card">
+                    <div style={{backgroundColor:global?.theme?.backgroundColor, color:global?.theme?.inputColor}} className="card">
                         <div className="card-header">
                             <h3 className="title">Search Patient</h3>
                         </div>

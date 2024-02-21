@@ -10,7 +10,6 @@ import { Nav, NavItem, NavLink, TabContent, TabPane } from 'reactstrap';
 import Note from '../../src/components/report/note/note';
 const Report = ({ questionnaireId, appointmentId, meetingId, hideFullLayout = false }) => {
   const global = useContext(MainContext)
-
   const [config, setConfig] = useState({
     readonly: true,
     placeholder: 'Start typing...',
@@ -59,7 +58,7 @@ const Report = ({ questionnaireId, appointmentId, meetingId, hideFullLayout = fa
   }, [meetingId])
   return (
     <>
-      {global.pageLoader.primeReactLoader && (
+      {global?.pageLoader?.primeReactLoader && (
         <div className={styles.overlay}>
           <ProgressSpinner
             style={{ width: "180px", height: "180px" }}

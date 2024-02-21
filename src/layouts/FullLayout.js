@@ -18,11 +18,10 @@ const FullLayout = ({ children }) => {
   })
   const fetchUser = async () => {
     try {
-      const token = localStorage.getItem("authToken")
+      const token = localStorage?.getItem("authToken")
       const secret = 'weightLoser@3rdEyeSof!@123!';
       const user = jwt?.verify(token, secret);
-      const currentUserFetch = await global.getCurrentUser(user.id);
-      setCurrentUser(currentUserFetch?.result?.data)
+      setCurrentUser(user)
       global?.user?.setCurrentUser(user)
     } catch (error) {
       if (error.message == "jwt expired") {
@@ -64,9 +63,9 @@ const FullLayout = ({ children }) => {
           <Container className={styles.wrapper}>
             <Row>
               <Col>
-                <div style={{ maxHeight: "80vh", overflowY: "scroll" }}>
-                  {children}
-                </div>
+                  {/* <div style={{ maxHeight: "120vh", overflowY: "scroll" }}> */}
+                    {children}
+                  {/* </div> */}
               </Col>
             </Row>
           </Container>

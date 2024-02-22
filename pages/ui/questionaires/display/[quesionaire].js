@@ -235,15 +235,15 @@ const Display = ({ appointment }) => {
   const [radioState, setRadioState] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const fetchAllQuestion = useCallback(async (questionId) => {
-    const totalQuestonaires = await global.getQuestionaire(questionId);
-    if (totalQuestonaires?.status) {
-      setQuestionaires(totalQuestonaires?.result?.data?.questionId);
-    }
-    // const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
-    // const data = await questions.json();
-    // if (data?.status) {
-    //   setQuestionaires(data?.data?.questionId);
+    // const totalQuestonaires = await global.getQuestionaire(questionId);
+    // if (totalQuestonaires?.status) {
+    //   setQuestionaires(totalQuestonaires?.result?.data?.questionId);
     // }
+    const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
+    const data = await questions.json();
+    if (data?.status) {
+      setQuestionaires(data?.data?.questionId);
+    }
   }, [global]);
 
   useEffect(() => {

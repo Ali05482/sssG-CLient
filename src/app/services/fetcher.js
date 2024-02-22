@@ -9,11 +9,7 @@ const fetcher = async (
 ) => {
   try {
     // const apiUrl = process.env.API_BASE_URL + process.env.API_VERSION + url
-<<<<<<< Updated upstream
-    const apiUrl = "https://sssg-server.vercel.app" + "/api/v1" + url;
-=======
     const apiUrl = "https://sss-g-server.vercel.app" + "/api/v1" + url;
->>>>>>> Stashed changes
     // const apiUrl = "http://localhost:4001" + "/api/v1" + url
     pageLoader.setPageLoading(30);
     pageLoader.setPrimeReactLoader(true);

@@ -235,15 +235,15 @@ const Display = ({ appointment }) => {
   const [radioState, setRadioState] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const fetchAllQuestion = useCallback(async (questionId) => {
-    // const totalQuestonaires = await global.getQuestionaire(questionId);
-    // if (totalQuestonaires?.status) {
-    //   setQuestionaires(totalQuestonaires?.result?.data?.questionId);
-    // }
-    const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
-    const data = await questions.json();
-    if (data?.status) {
-      setQuestionaires(data?.data?.questionId);
+    const totalQuestonaires = await global.getQuestionaire(questionId);
+    if (totalQuestonaires?.status) {
+      setQuestionaires(totalQuestonaires?.result?.data?.questionId);
     }
+    // const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
+    // const data = await questions.json();
+    // if (data?.status) {
+    //   setQuestionaires(data?.data?.questionId);
+    // }
   }, [global]);
 
   useEffect(() => {
@@ -505,72 +505,6 @@ const Display = ({ appointment }) => {
   };
 
   return (
-<<<<<<< Updated upstream
-    <Container maxWidth="md">
-      <LoadingBar
-        color="#0000FF"
-        progress={global.pageLoader.pageLoading}
-        onLoaderFinished={() => global.pageLoader.setPageLoading(0)}
-      />
-      {global.pageLoader.primeReactLoader && (
-        <div className={styles.overlay}>
-          <ProgressSpinner
-            style={{ width: "180px", height: "180px" }}
-            animationDuration=".5s"
-          />
-        </div>
-      )}
-      <Card
-        variant="outlined"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "flex-start",
-        }}
-      >
-        <CardContent>
-          <form style={{ width: "100%" }}>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                marginBottom: "1rem",
-              }}
-            >
-              <div className="container">
-                {questionaires?.map((questionare, index) => (
-                  <div key={index} className="row">
-                    <div className="col-md-12">
-                      <FormControl component="fieldset">
-                        <strong><legend>{questionare?.name}</legend></strong>
-                         <small>  QuestionValue: <b>{questionare?._id}</b></small>
-                        <FormGroup>
-                          <div className="row">
-                            {questionare?.answers?.map((answer, ansIndex) => (
-                             <>
-                              
-                               <DecisionMaker
-                                key={ansIndex}
-                                decisionTaker={answer?.answerType}
-                                value={answer?.answer}
-                                label={answer.answer}
-                                questionId={questionare?._id}
-                                question={questionare}
-                                ans={answer}
-                                linkedQues={answer?.linkedQuestion}
-                                questionIndex={index}
-                                selectedAnswer={selectedAnswer}
-                                setSelectedAnswer={setSelectedAnswer}
-                                handleChange={handleChange}
-                                handleImageUpload={handleImageUpload}
-                              />
-                                  <small>  AnswerValue: <b>{answer?._id}</b></small>
-                              </>
-                            ))}
-                          </div>
-                        </FormGroup>
-                      </FormControl>
-=======
     <>
       <Container maxWidth="md">
         <LoadingBar
@@ -632,7 +566,6 @@ const Display = ({ appointment }) => {
                           </FormGroup>
                         </FormControl>
                       </div>
->>>>>>> Stashed changes
                     </div>
                   ))}
                 </div>

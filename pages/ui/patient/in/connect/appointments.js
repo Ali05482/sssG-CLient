@@ -43,11 +43,26 @@ const Appointments = () => {
         x?.patient?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.doctor?.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.doctor?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        x?.patient?.phoneNumber.includes(searchTerm)
+        x?.patient?.phoneNumber.includes(searchTerm) || 
+        x?.date.includes(searchTerm) || 
+        x?.time?.includes(searchTerm)
     );
     const handleConnection = async (meetingId, id) => {
-        await global?.notifyDoctor({ appointmentId: id });
+        // make sweet alert are you sure 
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You want to process this appointment?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, Process it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+        await global?.notifyDoctor({ appointmentId: id }, "callback");
         window.open(meetingId, '_blank');
+        } 
+    })
     }
     return (
         <FullLayout>
@@ -78,6 +93,7 @@ const Appointments = () => {
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Name</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Phone Contact</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Doctor</b></th>
+                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Date</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Time</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Action</b></th>
                                         </tr>
@@ -89,7 +105,8 @@ const Appointments = () => {
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.firstName + " " + x?.patient?.lastName}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.phoneNumber}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.doctor?.firstName + " " + x?.doctor?.lastName}</td>
-                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{global?.formatTime(x?.time)}</td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><strong className="text-primary">{x?.date}</strong></td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><strong className="text-danger">{global?.formatTime(x?.time)}</strong></td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
                                                     <button onClick={() => handleConnection(x?.meeetingId, x?._id)} className='btn btn-success' rel="noreferrer">
                                                         Process

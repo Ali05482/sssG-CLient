@@ -57,15 +57,9 @@ const UserManager = () => {
   }, []);
   const filterUsers = (user) => {
     const fullName = user.firstName + " " + user.lastName;
-    const nameMatch = fullName
-      .toLowerCase()
-      .includes(filter.name.toLowerCase());
-    const emailMatch = user.email
-      .toLowerCase()
-      .includes(filter.email.toLowerCase());
-    const roleMatch = user.role
-      .toLowerCase()
-      .includes(filter.role.toLowerCase());
+    const nameMatch = fullName?.toLowerCase()?.includes(filter.name?.toLowerCase());
+    const emailMatch = user.email?.toLowerCase()?.includes(filter.email.toLowerCase());
+    const roleMatch = user.role?.toLowerCase()?.includes(filter.role.toLowerCase());
     return nameMatch && emailMatch && roleMatch;
   };
 
@@ -243,9 +237,8 @@ const UserManager = () => {
                 </tr>
               </thead>
               <tbody>
-                {users
-                  .filter((user) => filterUsers(user))
-                  .map((item, index) => {
+                {users?.filter((user) => filterUsers(user))
+                  ?.map((item, index) => {
                     return (
                       <tr key={index}>
                         <th className="text-center" scope="row">

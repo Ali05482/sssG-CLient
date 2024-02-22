@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import SearchableSelect from "../../../shared/component/SearchableSelect";
 import { referralBuilder } from "../../../shared/report/ReferralBuilder";
+import MainContext from "../../../app/context/context";
 const Referral = ({
   isReferralOpen,
   setIsReferralOpen,
@@ -15,12 +16,18 @@ const Referral = ({
 }) => {
   const [SelectedDoctor, setSelectedDoctor] = useState({});
   const [options, setOptions] = useState({});
-
+  const global = useContext(MainContext);
   const handleOptions = () => {
     const options = doctors?.map((doctor) => {
       return {
         value: doctor._id,
-        label: doctor.firstName + " " + doctor.lastName,
+        label:
+          doctor.firstName +
+          " " +
+          doctor.lastName +
+          ", (" +
+          doctor?.doctor?.specialty +
+          ")",
       };
     });
     setOptions(options);
@@ -69,7 +76,7 @@ const Referral = ({
               />
             </div>
 
-            <div className="col-md-5">
+            {/* <div className="col-md-5">
               <div className="form-group">
                 <label htmlFor="">Send Via Email</label>
                 <input
@@ -78,7 +85,7 @@ const Referral = ({
                   placeholder="Enter Email"
                 />
               </div>
-            </div>
+            </div> */}
           </div>
           <div className="my-2"></div>
           <button type="submit" className="btn btn-primary">

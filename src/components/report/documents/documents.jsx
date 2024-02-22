@@ -875,11 +875,22 @@ const Documents = ({
         className="modal-dialog-centered"
         size="xl"
       >
-        <ModalHeader toggle={() => setIsReferralOpen(!isReferralOpen)}>
+        <ModalHeader
+          style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }}
+          toggle={() => setIsReferralOpen(!isReferralOpen)}
+        >
           <h5 className="text-center">Referral Builder</h5>
         </ModalHeader>
 
-        <ModalBody>
+        <ModalBody
+          style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }}
+        >
           <Referral
             questionnaireId={questionnaireId}
             appointmentId={appointmentId}

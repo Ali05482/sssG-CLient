@@ -39,8 +39,8 @@ const UserManager = () => {
     licenseNumber:"",
     providerNumber:"",
     email: "",
-    details:""
-    
+    details:"",
+    meetingId:""
   });
   const [isPlatformToggle, setIsPlatformToggle] = useState(false);
   const global = useContext(MainContext);
@@ -136,8 +136,8 @@ const UserManager = () => {
       hospitalName: "",
       biography: "",
       email: "",
-      details:""
-      
+      details:"",
+      meetingId:""
     });
   };
   return (
@@ -474,6 +474,18 @@ const UserManager = () => {
                     name="providerNumber"
                     id="providerNumber"
                     placeholder="Provider Number"
+                    required
+                  />
+                </div>
+                <div className="col-12">
+                  <input
+                    onChange={handleChange}
+                    type="text"
+                    className="form-control p-3"
+                    value={addUserInfo.providerNumber}
+                    name="meetingId"
+                    id="meetingId"
+                    placeholder="Google Meeting"
                     required
                   />
                 </div>

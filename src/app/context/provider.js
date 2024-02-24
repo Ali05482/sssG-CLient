@@ -67,6 +67,8 @@ import updateInConnectionForAppointment from "./Appointment/updateInConnectionFo
 import getReport from "./report/getReport";
 import getDoctorNote from "./Appointment/getDoctorNote";
 import createAndUpdateDoctorNote from "./Appointment/createAndUpdateDoctorNote";
+import getAllDoctorsForDoctors from "./doctors/getAllDoctorsForDoctors";
+import addAndEditDoctor from "./doctors/addAndEditDoctor";
 let pageLoader;
 
 const Providor = (props) => {
@@ -205,7 +207,9 @@ const Providor = (props) => {
     updateInConnectionForAppointment,
     getReport,
     getDoctorNote,
-    createAndUpdateDoctorNote
+    createAndUpdateDoctorNote,
+    addAndEditDoctor,
+    getAllDoctorsForDoctors
   };
   return (
     <MainContext.Provider value={data}>{props.children}</MainContext.Provider>

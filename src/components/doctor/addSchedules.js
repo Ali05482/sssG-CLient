@@ -13,6 +13,7 @@ const AddSchedules = ({day}) => {
         toTime: "",
         availability: "both",
     });
+   
     const handleChanges = (e) => {
         setData({ ...data, [e.target.name]: e.target.value });
         console.log("data", data);
@@ -23,7 +24,9 @@ const AddSchedules = ({day}) => {
         const user = jwt.verify(token, secret);
         setData({...data, doctorId: user?.id, day: {day: day, incrementalTime:data?.incrementalTime}})
     }, [day])
-
+    const handleOnChange = (e) => {
+        setDoctor({ ...doctor, [e.target.name]: e.target.value });
+    };
     const handleSubmit = async(e) => {
         e.preventDefault();
         try {

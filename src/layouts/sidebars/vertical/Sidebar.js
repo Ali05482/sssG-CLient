@@ -93,6 +93,11 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
   else if (currentUser?.role === "supperAdmin") {
     navigation = [
       {
+        title: "Doctors",
+        href: "/ui/doctor",
+        icon: "bi bi-file-medical",
+      },
+      {
         title: "Attendants",
         href: "/ui/clinic/attendant",
         icon: "bi bi-arrow-left-right",

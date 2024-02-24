@@ -6,7 +6,6 @@ import styles from "/styles/Appointment.module.css";
 
 const Profile = ({ currentUser }) => {
   const global = useContext(MainContext)
-   console.log(currentUser)
   return (
     <>
       <div style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} className="flex flex-wrap">

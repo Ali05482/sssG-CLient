@@ -235,16 +235,15 @@ const Display = ({ appointment }) => {
   const [radioState, setRadioState] = useState({});
   const [selectedAnswer, setSelectedAnswer] = useState({});
   const fetchAllQuestion = useCallback(async (questionId) => {
-    // const totalQuestonaires = await global.getQuestionaire(questionId);
-    // if (totalQuestonaires?.status) {
-    //   setQuestionaires(totalQuestonaires?.result?.data?.questionId);
-    // }
-    const questions = await fetch("https://sss-g-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
-    const data = await questions.json();
-    if (data?.status) {
-      
-      setQuestionaires(data?.data?.questionId);
+    const totalQuestonaires = await global.getQuestionaire(questionId);
+    if (totalQuestonaires?.status) {
+      setQuestionaires(totalQuestonaires?.result?.data?.questionId);
     }
+    // const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
+    // const data = await questions.json();
+    // if (data?.status) {
+    //   setQuestionaires(data?.data?.questionId);
+    // }
   }, [global]);
 
   useEffect(() => {
@@ -544,9 +543,11 @@ const Display = ({ appointment }) => {
                       <div className="col-md-12">
                         <FormControl component="fieldset">
                           <strong>{questionare?.name}</strong>
+                          <small>Question ID: <strong>{questionare?._id}</strong></small>
                           <FormGroup>
                             <div className="row">
                               {questionare?.answers?.map((answer, ansIndex) => (
+                               <>
                                 <DecisionMaker
                                   key={ansIndex}
                                   decisionTaker={answer?.answerType}
@@ -562,6 +563,8 @@ const Display = ({ appointment }) => {
                                   handleChange={handleChange}
                                   handleImageUpload={handleImageUpload}
                                 />
+                                <small>Answer ID: <strong>{answer?._id}</strong></small>
+                               </>
                               ))}
                             </div>
                           </FormGroup>

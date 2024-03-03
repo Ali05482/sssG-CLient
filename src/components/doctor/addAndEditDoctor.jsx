@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import MainContext from "../../app/context/context";
+import _ from "lodash";
 
-const AddAndEditDoctor = ({ clinics, mode = "create", doctorToLoad }) => {
+const AddAndEditDoctor = ({
+  clinics,
+  mode = "create",
+  doctorToLoad = null,
+}) => {
   const global = useContext(MainContext);
   const [doctor, setDoctor] = useState({
     _id: "",
@@ -30,12 +35,14 @@ const AddAndEditDoctor = ({ clinics, mode = "create", doctorToLoad }) => {
   console.log("doctor====>", doctor);
   console.log("clinics====>", clinics);
   useEffect(() => {
-    setDoctor({ ...doctor, clinicId: clinics[0]?._id });
+    setDoctor({ ...doctor, clinicId: clinics?.[0]?._id });
   }, [clinics]);
   useEffect(() => {
-    setDoctor(doctorToLoad);
+    if (!_?.isNull(doctorToLoad)) {
+      setDoctor(doctorToLoad);
+    }
   }, [doctorToLoad]);
-  const handleOnChange = (e) => {
+   const handleOnChange = (e) => {
     setDoctor({ ...doctor, [e.target.name]: e.target.value });
   };
   const handleSubmit = async (e) => {
@@ -259,13 +266,13 @@ const AddAndEditDoctor = ({ clinics, mode = "create", doctorToLoad }) => {
                   <label htmlFor="">Select Gender</label>
                   <select
                     onChange={handleOnChange}
-                    defaultValue={doctor?.gender}
+                    value={doctor?.gender}
                     style={{
                       backgroundColor: global?.theme?.backgroundColor,
                       color: global?.theme?.inputColor,
                     }}
                     required
-                    name="clinicId"
+                    name="gender"
                     id=""
                     className="form-control"
                   >

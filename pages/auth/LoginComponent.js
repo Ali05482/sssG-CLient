@@ -16,7 +16,7 @@ const LoginComponent = () => {
   });
   const [errors, setErrors] = useState([]);
   const global = useContext(MainContext);
-  const handdleChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setLogin({ ...login, [name]: value });
   };
@@ -67,6 +67,7 @@ const LoginComponent = () => {
   };
   return (
     <>
+              <img src="/mainLogo.png" width={200} alt="Image" className="img-fluid" />
       <div className="content">
         <div className="container">
           <div className="row">
@@ -86,30 +87,28 @@ const LoginComponent = () => {
                   <form onSubmit={handleLogin}>
                     <div className="form-group first">
                     {/* value="ali.usama@ssg.com" */}
-                      <input onChange={handdleChange} type="text" className="form-control" placeholder="username"  name="email" id="email" />
+                      <input onChange={handleChange} type="text" className="form-control" placeholder="username"  name="email" id="email" />
                     </div>
                     <span className="text-danger">{errors?.map((item) => (item.path === "email" ? item.msg + ",  " : ""))}</span>
                     <div className="form-group last mb-4">
                    
-                      <input onChange={handdleChange} type="password" placeholder="********" className="form-control"  name="password" id="password" />
+                      <input onChange={handleChange} type="password" placeholder="********" className="form-control"  name="password" id="password" />
                     </div>
                     <span className="text-danger">{errors?.map((item) => (item.path === "password" ? item.msg : ""))}</span>
 
                     <div className="d-flex mb-5 align-items-center">
                       <label className="control control--checkbox mb-0">
                         <span className="caption">Remember me</span>
-                        <input onChange={handdleChange} type="checkbox" checked="checked" />
+                        <input onChange={handleChange} type="checkbox" checked="checked" />
                         <div className="control__indicator"></div>
                       </label>
-                      <span className="ml-auto">
+                      {/* <span className="ml-auto">
                         <a href="#" className="forgot-pass">
                           Forgot Password
                         </a>
-                      </span>
+                      </span> */}
                     </div>
-
                     <center>
-                      {" "}
                       <span ref={errorThrower} className="text-danger my-3"></span>
                     </center>
                     <button ref={loaderSUbmit} type="submit" value="Log In" className="btn btn-block btn-primary">

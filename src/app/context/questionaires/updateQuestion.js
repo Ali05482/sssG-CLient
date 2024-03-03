@@ -1,7 +1,7 @@
 import fetcher from "../../services/fetcher";
-const updateQuestion = async (data ,questionId,) => {
+const updateQuestion = async (data ,questionId,type) => {
 
-  const result = await fetcher("PUT", data, `/question/edit/${questionId}`);
+  const result = await fetcher("PUT", data, `/question/edit/${questionId}`, type);
   return result;
 };
 

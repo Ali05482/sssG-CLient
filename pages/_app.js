@@ -73,9 +73,9 @@ function MyApp({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Welll Clinics</title>
+        <title>Fitwell Hub PK</title>
         <meta name="description" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/headIcon.png" />
       </Head>
       <Provider>
         <Component {...pageProps} />

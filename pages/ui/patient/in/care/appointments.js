@@ -96,6 +96,8 @@ const Appointments = () => {
                                         <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{index + 1}</td>
                                         <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.firstName + " " + x?.patient?.lastName}</td>
                                         <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.phoneNumber}</td>
+                                        <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><strong className="text-primary">{x?.date}</strong></td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><strong className="text-danger">{global?.formatTime(x?.time)}</strong></td>
                                         <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
                                             <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.date}</td>
                                             <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{global?.formatTime(x?.time)}</td>

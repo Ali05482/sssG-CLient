@@ -177,8 +177,9 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         <Nav vertical className="sidebarNav">
           {navigation?.map((navi, index) => (
             <NavItem key={index} className="sidenav-bg">
-              <Link onClick={navToggler} href={navi.href}>
+              <Link  href={navi.href}>
                 <a
+                onClick={navToggler}
                   className={`d-flex flex-column align-items-center justify-content-center py-3 ${location === navi.href
                     ? "text-dark bg-white"
                     : "text-secondary"

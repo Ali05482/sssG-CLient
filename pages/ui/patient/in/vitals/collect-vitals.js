@@ -1,5 +1,4 @@
 
-import { MDBDataTable } from 'mdbreact';
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import MainContext from '../../../../../src/app/context/context';

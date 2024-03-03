@@ -73,7 +73,6 @@ export const summaryBuilder = (questionnaires, global) => {
             </strong>`;
       x?.answers?.forEach(y => {
         y?.value?.forEach(z => {
-          console.log('z===>', z);
           if (isImage(z)) {
             content += `
            <img

@@ -75,8 +75,7 @@ export const prescriptionBuilderV2 = (props, neWPrescription) => {
             <tr>
                 <th style="width: 12.4643%; text-align: center;"><strong>Medication</strong></th>
                 <th style="width: 63.7488%; text-align: center;">&nbsp; <strong>Dosage/Instructions</strong><br></th>
-                <th style="width: 11.7031%; text-align: center;"><strong>Quantity</strong></th>
-                <th style="width: 12.0837%; text-align: center;"><strong>Repeat</strong></th>
+                <th style="width: 11.7031%; text-align: center;"><strong>Days</strong></th>
             </tr>
             ${neWPrescription?.map((x, index) => {
           return (
@@ -84,7 +83,6 @@ export const prescriptionBuilderV2 = (props, neWPrescription) => {
                 <td style="width: 12.6546%; text-align: center;"><span style="font-size: 12px;">${x?.medicineName}<br><strong>LU:&nbsp;</strong>${x?.luCode}</span></td>
                 <td style="width: 63.6537%; text-align: center;">${x?.doseInstcruction}</td>
                 <td style="width: 11.7983%; text-align: center;">${x?.quantity}</td>
-                <td style="width: 11.7983%; text-align: center;">${x?.repeats}</td>
             </tr>`
           )
         }

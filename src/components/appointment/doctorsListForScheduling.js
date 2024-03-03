@@ -1,10 +1,8 @@
-
-import { MDBDataTable } from 'mdbreact';
 import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { ProgressSpinner } from 'primereact/progressspinner';
 import styles from "/styles/Appointment.module.css";
-import _, { set } from 'lodash';
+import _ from 'lodash';
 import { Modal, ModalBody, ModalHeader } from 'reactstrap';
 import Schedules from '../doctor/Schedules';
 import MainContext from '../../app/context/context';
@@ -100,7 +98,7 @@ const DoctorsListForScheduling = ({ appointmentId }) => {
     const filteredAppointments = doctors.filter((x) =>
         x?.user?.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.user?.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        x?.user?.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        x?.specialty.toLowerCase().includes(searchTerm.toLowerCase()) ||
         x?.user?.phoneNumber.includes(searchTerm)
     );
     return (
@@ -133,7 +131,17 @@ const DoctorsListForScheduling = ({ appointmentId }) => {
                             {selectedDoctor && <h5>Selected Doctor : {doctor?.user?.firstName + " " + doctor?.user?.lastName + " " + doctor?.user?.phoneNumber}</h5>}
                             <div className="form-group">
                                 <label htmlFor="">Start Time</label>
-                                <input required style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }} type="time" name='time' className="form-control" />
+                                <input
+            required
+            style={{
+                backgroundColor: global?.theme?.backgroundColor,
+                color: global?.theme?.inputColor
+            }}
+            type="time"
+            name="time"
+            className="form-control"
+            min={new Date().toISOString().slice(0, 16)} // Set the minimum value dynamically to the current time
+        />
                             </div>
                             <div className="form-group">
                                 <label htmlFor="">Enter Duration</label>

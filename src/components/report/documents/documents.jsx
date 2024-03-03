@@ -833,10 +833,16 @@ const Documents = ({
       </div>
       {/* </div> */}
       <Modal isOpen={isModalOpen} className="modal-dialog-centered" size="xl">
-        <ModalHeader toggle={() => setIsModalOpen(!isModalOpen)}>
+        <ModalHeader  style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }} toggle={() => setIsModalOpen(!isModalOpen)}>
           <h5 className="text-center">Create Sick Note</h5>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody  style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }}>
           <SickNote
             getCurrentDate={getCurrentDate}
             sickNote={sickNote}
@@ -853,10 +859,16 @@ const Documents = ({
         className="modal-dialog-centered"
         size="xl"
       >
-        <ModalHeader toggle={() => setIsPrescriptionOpen(!isPrescriptionOpen)}>
+        <ModalHeader  style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }} toggle={() => setIsPrescriptionOpen(!isPrescriptionOpen)}>
           <h5 className="text-center">Prescription Builder</h5>
         </ModalHeader>
-        <ModalBody>
+        <ModalBody  style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }}>
           <Prescription
             handleSubmitPrescription={handleSubmitPrescription}
             setPrescriptionContent={setPrescriptionContent}

@@ -241,7 +241,7 @@ const CreateQuestionaire = (props) => {
                     <option value="table">Table</option>
                     <option value="range">Range</option>
                     <option value="signature">Signature</option>
-                    <option value="select">Dropdown</option>
+                    <option value="label">Label First</option>
                   </select>
                 </div>
               </div>

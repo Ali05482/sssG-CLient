@@ -239,11 +239,7 @@ const Display = ({ appointment }) => {
     if (totalQuestonaires?.status) {
       setQuestionaires(totalQuestonaires?.result?.data?.questionId);
     }
-    // const questions = await fetch("https://sssg-server.vercel.app/api/v1/question-group/getAllQuestionAnswer/65c88a026a5a6b1b14cd3a39");
-    // const data = await questions.json();
-    // if (data?.status) {
-    //   setQuestionaires(data?.data?.questionId);
-    // }
+    
   }, [global]);
 
   useEffect(() => {
@@ -420,21 +416,23 @@ const Display = ({ appointment }) => {
       } else {
         handleDestroyQuestions(ans?._id, questionId);
       }
+      console.log("before:::",checkboxState)
       const updatedCheckboxState = { ...checkboxState };
-
       if (!updatedCheckboxState[questionId]) {
-        updatedCheckboxState[questionId] = [];
+        updatedCheckboxState[questionId] = Array.prototype;
       }
       const existingItemIndex = updatedCheckboxState[questionId].findIndex(item => item.value === value);
       if (existingItemIndex !== -1) {
         updatedCheckboxState[questionId].splice(existingItemIndex, 1);
       } else {
         updatedCheckboxState[questionId].push({
-          value: value,
+          value: [value],
           answerId: ans?._id,
           answerType: type,
         });
       }
+
+      console.log("updatedCheckboxState", updatedCheckboxState)
       setCheckboxState(updatedCheckboxState);
       const dataType = updatedCheckboxState[questionId].map(item => ({
         value: [item.value],
@@ -507,6 +505,7 @@ const Display = ({ appointment }) => {
   return (
     <>
       <Container maxWidth="md">
+        <button onClick={()=>console.log(checkboxState)}>test</button>
         <LoadingBar
           color="#0000FF"
           progress={global.pageLoader.pageLoading}
@@ -543,7 +542,6 @@ const Display = ({ appointment }) => {
                       <div className="col-md-12">
                         <FormControl component="fieldset">
                           <strong>{questionare?.name}</strong>
-                          <small>Question ID: <strong>{questionare?._id}</strong></small>
                           <FormGroup>
                             <div className="row">
                               {questionare?.answers?.map((answer, ansIndex) => (
@@ -563,7 +561,6 @@ const Display = ({ appointment }) => {
                                   handleChange={handleChange}
                                   handleImageUpload={handleImageUpload}
                                 />
-                                <small>Answer ID: <strong>{answer?._id}</strong></small>
                                </>
                               ))}
                             </div>

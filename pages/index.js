@@ -24,20 +24,10 @@ export default function Home() {
     <FullLayout>
       <div>
         <Head>
-          <title>Medical App</title>
+          <title>Fitwell Hub PK</title>
           <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/headIcon.png" />
         </Head>
-        <div>
-          <Row>
-            <Col sm="12" lg="6" xl="7" xxl="8">
-              <SalesChart />
-            </Col>
-            <Col sm="12" lg="6" xl="5" xxl="4">
-              <Feeds />
-            </Col>
-          </Row>
-        </div>
       </div>
     </FullLayout>
   );

@@ -1,9 +1,12 @@
-import React, { useEffect, useRef } from "react";
+import React, { useContext, useEffect, useRef } from "react";
+import MainContext from "../../../app/context/context";
+import Swal from "sweetalert2";
 
 const SickNote = (props) => {
   const daysBetween = useRef(0);
   const startDate = useRef();
   const endDate = useRef();
+  const global = useContext(MainContext);
   const handleChange = (e) => {
     const { name, value } = e.target;
     props?.setSickNote({ ...props?.sickNote, [name]: value });
@@ -13,6 +16,13 @@ const SickNote = (props) => {
     );
   };
   const handleSickNote = () => {
+    if (daysBetween?.current?.value < 1) {
+      return Swal.fire({
+        icon: "warning",
+        title: "Invalid Date Range",
+        text: "Please select a valid date range,  You cannot select a date range less than 1 day",
+      });
+    }
     const content = `
         <style>
         table {
@@ -153,6 +163,7 @@ const SickNote = (props) => {
         (1000 * 60 * 60 * 24)
     );
   }, []);
+
   return (
     <>
       <div className="container">
@@ -162,12 +173,17 @@ const SickNote = (props) => {
           </label>
           <input
             ref={startDate}
+            style={{
+              backgroundColor: global?.theme?.backgroundColor,
+              color: global?.theme?.inputColor,
+            }}
             value={props?.sickNote?.startDate || props?.getCurrentDate()}
             defaultValue={props?.sickNote?.startDate || props?.getCurrentDate()}
             onChange={handleChange}
             type="date"
             className="form-control"
             name="startDate"
+            min={new Date().toISOString().split("T")[0]}
           />
         </div>
         <div className="form-group">
@@ -175,13 +191,20 @@ const SickNote = (props) => {
             <b>To Date</b>
           </label>
           <input
+            style={{
+              backgroundColor: global?.theme?.backgroundColor,
+              color: global?.theme?.inputColor,
+            }}
             ref={endDate}
             value={props?.sickNote?.endDate || props?.getCurrentDate()}
-            defaultValue={props?.sickNote?.endDate || props?.getCurrentDate()}
+            defaultValue={
+              new Date(Date.now() + 86400000).toISOString().split("T")[0]
+            }
             onChange={handleChange}
             type="date"
             className="form-control"
             name="endDate"
+            min={new Date(Date.now() + 86400000).toISOString().split("T")[0]} // Set minimum date to
           />
         </div>
         <div className="form-group">
@@ -189,6 +212,10 @@ const SickNote = (props) => {
             <b>Days Between</b>
           </label>
           <input
+            style={{
+              backgroundColor: global?.theme?.backgroundColor,
+              color: global?.theme?.inputColor,
+            }}
             type="number"
             disabled
             ref={daysBetween}

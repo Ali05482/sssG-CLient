@@ -147,7 +147,7 @@ const SearchedPatient = (props) => {
                                                     value={appointment.date}
                                                     id="date"
                                                     placeholder="Date Field"
-                                                    min={getCurrentDate}
+                                                    min={new Date().toISOString().split("T")[0]}
                                                 />
                                             </div>
                                         </div>

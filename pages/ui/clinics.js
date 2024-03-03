@@ -294,7 +294,8 @@ const UserManager = () => {
                       placeholder="Clinic Type"
                       required
                     >
-                      <option value="clinic">Clinic</option>
+                      <option value="virtualClinic">Virtual Clinic</option>
+                      <option value="physicalClinic">Physical Clinic</option>
                       <option value="hospital">Hospital</option>
                       <option value="pharmacy">Pharmacy</option>
                       <option value="lab">Lab</option>

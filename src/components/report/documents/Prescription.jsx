@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { prescriptionBuilderV2 } from "../../../shared/report/prescriptionBuilderV2";
+import MainContext from "../../../app/context/context";
 
 const Prescription = (props) => {
   const [medications, setMedications] = useState({
@@ -10,7 +11,38 @@ const Prescription = (props) => {
     luCode: "",
     uniqueId: "",
   });
+  const medicines = [
+    "Paracetamol",
+    "Ibuprofen",
+    "Aspirin",
+    "Codeine",
+    "Morphine",
+    "Tramadol",
+    "Diclofenac",
+  ];
+  const doses = [
+    "1x1",
+    "1x2",
+    "1x3",
+    "1x4",
+    "1x5",
+    "1x6",
+    "1x7",
+    "1x8",
+    "1x9",
+    "1x10",
+  ];
+  const [searchMedicines, setSearchMedicines] = useState('');
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showDoseDropdown, setShowDoseDropdown] = useState(false);
+  const global = useContext(MainContext);
   const handleChange = (e) => {
+    if (e?.target?.name === "medicineName") {
+      setShowDropdown(true);
+    } 
+    if(e?.target?.name === "doseInstcruction"){
+      setShowDoseDropdown(true);
+    }
     const { name, value } = e?.target;
     setMedications({ ...medications, [name]: value });
   };
@@ -32,10 +64,8 @@ const Prescription = (props) => {
       quantity: "",
       repeats: "",
       luCode: "",
-      uniqueId: "",
     });
   };
-  const handleEditPrescription = (nodeId) => {};
   const handleDeletePrescription = (uniqueId) => {
     const prescriptions = { ...props?.prescription };
     const neWPrescription = prescriptions?.medicalInstruction?.filter(
@@ -52,7 +82,20 @@ const Prescription = (props) => {
     const { name, value } = e?.target;
     props?.setPrescription({ ...props?.prescription, [name]: value });
   };
-
+  const handleMedicineSearch = (value) => {
+    setMedications({ ...medications, medicineName: value });
+    setShowDropdown(false);
+  };
+  const filteredMedicines = medicines?.filter((x) =>
+    x?.toLowerCase()?.includes(medications?.medicineName?.toLowerCase())
+  );
+  const handleDosesSearch = (value) => {
+    setMedications({ ...medications, doseInstcruction: value });
+    setShowDoseDropdown(false);
+  };
+  const filteredDoses = doses?.filter((x) =>
+    x?.toLowerCase()?.includes(medications?.doseInstcruction?.toLowerCase())
+  );
   return (
     <>
       <div className="container">
@@ -82,7 +125,14 @@ const Prescription = (props) => {
             name="prescriptionName"
           />
         </div>
-        <div className="card">
+
+        <div
+          className="card"
+          style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }}
+        >
           <div className="card-header">
             <h3 className="title">Enter Prescription</h3>
             <form onSubmit={handlePrescription}>
@@ -92,19 +142,73 @@ const Prescription = (props) => {
                     <b>Medication</b>
                   </label>
                   <input
-                    value={medications.medicineName}
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.inputColor,
+                    }}
+                    value={medications?.medicineName}
                     onChange={handleChange}
                     type="text"
                     required
                     className="form-control"
                     name="medicineName"
                   />
+                  <div className="dropdown" style={{ position: "relative" }}>
+                    {showDropdown && filteredMedicines?.length > 0 && (
+                      <>
+                      <span onClick={()=>setShowDropdown(false)} style={{cursor:"pointer"}}>X</span>
+                      <ul
+                        className="dropdown-menu"
+                        role="menu"
+                        aria-labelledby="query"
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.inputColor,
+                          display: "block",
+                          position: "absolute",
+                          top: "100%",
+                          left: "0",
+                          right: "0",
+                          border: "1px solid #ced4da",
+                          borderTop: "none",
+                          borderRadius: "0 0 0.25rem 0.25rem",
+                          animation: "slideDown 0.3s ease",
+                        }}
+                      >
+                        {filteredMedicines?.map((x, index) => {
+                          return (
+                            <>
+                              <li>
+                                <button
+                                  className="dropdown-item result"
+                                  onClick={() => handleMedicineSearch(x)}
+                                  style={{
+                                    backgroundColor:
+                                      global?.theme?.backgroundColor,
+                                    color: global?.theme?.inputColor,
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  {x}
+                                </button>
+                              </li>
+                            </>
+                          );
+                        })}
+                      </ul>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="">
                     <b>Dose / Frequency</b>
                   </label>
                   <input
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.inputColor,
+                    }}
                     required
                     value={medications.doseInstcruction}
                     onChange={handleChange}
@@ -112,12 +216,62 @@ const Prescription = (props) => {
                     className="form-control"
                     name="doseInstcruction"
                   />
+                  <div className="dropdown" style={{ position: "relative" }}>
+                    {showDoseDropdown && filteredDoses?.length > 0 && (
+                      <>
+                      <span onClick={()=>setShowDoseDropdown(false)} style={{cursor:"pointer"}}>X</span>
+                      <ul
+                        className="dropdown-menu"
+                        role="menu"
+                        aria-labelledby="query"
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.inputColor,
+                          display: "block",
+                          position: "absolute",
+                          top: "100%",
+                          left: "0",
+                          right: "0",
+                          border: "1px solid #ced4da",
+                          borderTop: "none",
+                          borderRadius: "0 0 0.25rem 0.25rem",
+                          animation: "slideDown 0.3s ease",
+                        }}
+                      >
+                        {filteredDoses?.map((x, index) => {
+                          return (
+                            <>
+                              <li>
+                                <button
+                                  className="dropdown-item result"
+                                  onClick={() => handleDosesSearch(x)}
+                                  style={{
+                                    backgroundColor:
+                                      global?.theme?.backgroundColor,
+                                    color: global?.theme?.inputColor,
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  {x}
+                                </button>
+                              </li>
+                            </>
+                          );
+                        })}
+                      </ul>
+                      </>
+                    )}
+                  </div>
                 </div>
                 <div className="form-group">
                   <label htmlFor="">
-                    <b>Quantity</b>
+                    <b>Days</b>
                   </label>
                   <input
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.inputColor,
+                    }}
                     required
                     value={medications.quantity}
                     onChange={handleChange}
@@ -127,11 +281,15 @@ const Prescription = (props) => {
                     min={1}
                   />
                 </div>
-                <div className="form-group">
+                {/* <div className="form-group">
                   <label htmlFor="">
                     <b>Repeats</b>
                   </label>
                   <input
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.inputColor,
+                    }}
                     required
                     value={medications.repeats}
                     onChange={handleChange}
@@ -139,7 +297,7 @@ const Prescription = (props) => {
                     className="form-control"
                     name="repeats"
                   />
-                </div>
+                </div> */}
                 {/* <div className="form-group">
                   <label htmlFor="">
                     <b>LU Code</b>
@@ -159,32 +317,112 @@ const Prescription = (props) => {
             </form>
           </div>
         </div>
-        <div className="card">
-          <div className="card-header">
+        <div
+          className="card"
+          style={{
+            backgroundColor: global?.theme?.backgroundColor,
+            color: global?.theme?.color,
+          }}
+        >
+          <div
+            style={{
+              backgroundColor: global?.theme?.backgroundColor,
+              color: global?.theme?.color,
+            }}
+            className="card-header"
+          >
             <h3 className="card-title">Prescriptions</h3>
           </div>
           <div className="card-body">
             <table className="table">
               <thead>
                 <tr>
-                  <th>Medication</th>
-                  <th>Dose</th>
-                  <th>Quantity</th>
-                  <th>Repeats</th>
+                  <th
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.color,
+                    }}
+                  >
+                    Medication
+                  </th>
+                  <th
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.color,
+                    }}
+                  >
+                    Dose
+                  </th>
+                  <th
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.color,
+                    }}
+                  >
+                    Days
+                  </th>
+                  {/* <th
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.color,
+                    }}
+                  >
+                    Repeats
+                  </th> */}
                   {/* <th>Code</th> */}
-                  <th>Action</th>
+                  <th
+                    style={{
+                      backgroundColor: global?.theme?.backgroundColor,
+                      color: global?.theme?.color,
+                    }}
+                  >
+                    Action
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {props?.prescription?.medicalInstruction?.map((x, index) => {
                   return (
                     <tr key={index}>
-                      <td>{x?.medicineName}</td>
-                      <td>{x?.doseInstcruction}</td>
-                      <td>{x?.quantity}</td>
-                      <td>{x?.repeats}</td>
+                      <td
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.color,
+                        }}
+                      >
+                        {x?.medicineName}
+                      </td>
+                      <td
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.color,
+                        }}
+                      >
+                        {x?.doseInstcruction}
+                      </td>
+                      <td
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.color,
+                        }}
+                      >
+                        {x?.quantity}
+                      </td>
+                      {/* <td
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.color,
+                        }}
+                      >
+                        {x?.repeats}
+                      </td> */}
                       {/* <td>{x?.luCode}</td> */}
-                      <td>
+                      <td
+                        style={{
+                          backgroundColor: global?.theme?.backgroundColor,
+                          color: global?.theme?.color,
+                        }}
+                      >
                         <button
                           onClick={() => {
                             handleDeletePrescription(x?.uniqueId);

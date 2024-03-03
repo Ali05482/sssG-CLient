@@ -130,7 +130,7 @@ const Appointment = ({ appointmentData }) => {
         Swal.fire({
           icon: "error",
           title: "Something Went Wrong",
-          text:addAppointment?.result?.msg,
+          text: addAppointment?.result?.msg,
         });
       }
     } catch (error) {
@@ -223,7 +223,7 @@ const Appointment = ({ appointmentData }) => {
                 value={appointment.phoneNumber}
                 onChange={handleChange}
               />
-              
+
             </div>
             <div className="md-form input-with-pre-icon">
               <label className="fw-bold" htmlFor="prefixInside">
@@ -308,13 +308,13 @@ const Appointment = ({ appointmentData }) => {
                 <input
                   style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.inputColor }}
                   onChange={handleChange}
+                  min={new Date().toISOString().split("T")[0]}
                   type="date"
                   className="form-control"
                   name="date"
                   value={appointment.date}
                   id="date"
                   placeholder="Date Field"
-                  min={getCurrentDate}
                 />
               </div>
             </div>

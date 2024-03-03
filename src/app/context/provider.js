@@ -69,6 +69,16 @@ import getDoctorNote from "./Appointment/getDoctorNote";
 import createAndUpdateDoctorNote from "./Appointment/createAndUpdateDoctorNote";
 import getAllDoctorsForDoctors from "./doctors/getAllDoctorsForDoctors";
 import addAndEditDoctor from "./doctors/addAndEditDoctor";
+import getQuestionsByGroupId from "./questionaires/questions/getQuestionsByGroupId";
+import searchQuestion from "./questionaires/questions/searchQuestion";
+import deleteQuestionById from "./questionaires/questions/getQuestionsByGroupId";
+import addQuestionWIthGroupId from "./questionaires/questions/addQuestionWIthGroupId";
+import addAnswerWithQuestionId from "./questionaires/answer/addAnswerWithQuestionId";
+import editAnswerWithQuestionId from "./questionaires/answer/editAnswerWithQuestionId";
+import deleteAnswerById from "./questionaires/questions/deleteQuestionById";
+import getQuestionsOfAnswer from "./questionaires/answer/getQuestionsOfAnswer";
+import unLinkQuestionsFromAnswers from "./questionaires/questions/unLinkQuestionsFromAnswers";
+
 let pageLoader;
 
 const Providor = (props) => {
@@ -209,7 +219,16 @@ const Providor = (props) => {
     getDoctorNote,
     createAndUpdateDoctorNote,
     addAndEditDoctor,
-    getAllDoctorsForDoctors
+    getAllDoctorsForDoctors,
+    getQuestionsByGroupId,
+    searchQuestion,
+    deleteQuestionById,
+    addQuestionWIthGroupId,
+    addAnswerWithQuestionId,
+    editAnswerWithQuestionId,
+    deleteAnswerById,
+    getQuestionsOfAnswer,
+    unLinkQuestionsFromAnswers
   };
   return (
     <MainContext.Provider value={data}>{props.children}</MainContext.Provider>

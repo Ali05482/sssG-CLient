@@ -99,7 +99,7 @@ console.log("doctors",doctors)
                     className="card"
                 >
                     <div className="card-header">
-                        <h3 className="card-title">Attendants List</h3>
+                        <h3 className="card-title">Doctor List</h3>
                         <div className="card-body">
                             <div className="mb-3">
                                 <label htmlFor="">Search</label>

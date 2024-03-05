@@ -419,7 +419,7 @@ const Display = ({ appointment }) => {
       console.log("before:::",checkboxState)
       const updatedCheckboxState = { ...checkboxState };
       if (!updatedCheckboxState[questionId]) {
-        updatedCheckboxState[questionId] = Array.prototype;
+        updatedCheckboxState[questionId] = [];
       }
       const existingItemIndex = updatedCheckboxState[questionId].findIndex(item => item.value === value);
       if (existingItemIndex !== -1) {
@@ -505,7 +505,6 @@ const Display = ({ appointment }) => {
   return (
     <>
       <Container maxWidth="md">
-        <button onClick={()=>console.log(checkboxState)}>test</button>
         <LoadingBar
           color="#0000FF"
           progress={global.pageLoader.pageLoading}

@@ -63,9 +63,9 @@ const FullLayout = ({ children }) => {
           <Container className={styles.wrapper}>
             <Row>
               <Col>
-                  {/* <div style={{ maxHeight: "120vh", overflowY: "scroll" }}> */}
-                    {children}
-                  {/* </div> */}
+                {/* <div style={{ maxHeight: "120vh", overflowY: "scroll" }}> */}
+                {children}
+                {/* </div> */}
               </Col>
             </Row>
           </Container>

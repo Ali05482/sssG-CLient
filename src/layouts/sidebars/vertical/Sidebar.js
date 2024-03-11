@@ -41,16 +41,15 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         icon: "bi bi-clipboard2-pulse-fill",
       },
       {
-        title: "Care Room",
-        href: "/ui/patient/in/care/appointments",
-        icon: "bi bi bi-bandaid-fill",
-      },
-      {
         title: "Doctor Room",
         href: "/ui/patient/in/connect/appointments",
         icon: "bi bi-camera-reels",
       },
-
+      {
+        title: "Care Room",
+        href: "/ui/patient/in/care/appointments",
+        icon: "bi bi bi-bandaid-fill",
+      },
     ];
   } else if (currentUser?.role === "schedulingTeam") {
     navigation = [
@@ -58,6 +57,11 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         title: "Scheduling",
         href: "/ui/scheduling/appointments",
         icon: "bi bi bi-clock",
+      },
+      {
+        title: "Management",
+        href: "/ui/scheduling/management",
+        icon: "bi bi-briefcase-fill",
       },
     ]
   }
@@ -77,11 +81,6 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         title: "Questionaires",
         href: "/ui/questionaires/folder",
         icon: "bi bi-textarea-resize",
-      },
-      {
-        title: "Notes",
-        href: "/ui/notes",
-        icon: "bi bi-sticky",
       },
       {
         title: "Clinics",
@@ -135,16 +134,6 @@ const Sidebar = ({ showMobilemenu, currentUser }) => {
         title: "Referrals",
         href: "/ui/referrals",
         icon: "bi bi-arrow-left-right",
-      },
-      {
-        title: "Notes",
-        href: "/ui/notes",
-        icon: "bi bi-sticky",
-      },
-      {
-        title: "Clinics",
-        href: "/ui/clinics",
-        icon: "bi bi-textarea-resize",
       },
       {
         title: "Availability",

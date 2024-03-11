@@ -1,13 +1,12 @@
-export const noteBuilder = (note, sickNote, prescription, summary, referral, requisition,appointment, lastVisit) => {
-    console.log("appointmentFromAppoint", appointment)
+export const noteBuilder = (note, sickNote, prescription, summary, referral, requisition,appointment, lastVisit,doctorNotes) => {
     return `
     <p><strong>Chief Complaint</strong></p>
 <ul>
-    <li>${appointment?.details}</li>
+    <li>${appointment?.details == "[object Object]" ? "loading....": appointment?.details || ''}</li>
 </ul><br>
       <p><strong>Triage</strong></p>
 <ul>
-    <li>${lastVisit}</li>
+    <li>${ lastVisit =="[object Object]" ? "loading......": lastVisit || ''}</li>
 </ul><br>
 <table style="border-collapse: collapse; width: 100.078%;">
     <tbody>
@@ -54,5 +53,6 @@ export const noteBuilder = (note, sickNote, prescription, summary, referral, req
       ${prescription || ''} <br>
       ${referral || ''} <br>
       ${requisition || ''} <br>
+      ${doctorNotes || ''} <br>
       `
 }

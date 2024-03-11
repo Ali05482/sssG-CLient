@@ -78,6 +78,12 @@ import editAnswerWithQuestionId from "./questionaires/answer/editAnswerWithQuest
 import deleteAnswerById from "./questionaires/questions/deleteQuestionById";
 import getQuestionsOfAnswer from "./questionaires/answer/getQuestionsOfAnswer";
 import unLinkQuestionsFromAnswers from "./questionaires/questions/unLinkQuestionsFromAnswers";
+import inviteDoctor from "./doctors/inviteDoctor";
+import getAnswerById from "./questionaires/answer/getAnswerById";
+import getNotesByDoctorId from "./Appointment/getNotesByDoctorId";
+import getAppointmentForManagement from "./Appointment/getAppointmentForManagement";
+import editAppointment from "./Appointment/editAppointment";
+import fetchPatients from "./patients/fetchPatients";
 
 let pageLoader;
 
@@ -228,7 +234,13 @@ const Providor = (props) => {
     editAnswerWithQuestionId,
     deleteAnswerById,
     getQuestionsOfAnswer,
-    unLinkQuestionsFromAnswers
+    unLinkQuestionsFromAnswers,
+    inviteDoctor,
+    getAnswerById,
+    getNotesByDoctorId,
+    getAppointmentForManagement,
+    editAppointment,
+    fetchPatients
   };
   return (
     <MainContext.Provider value={data}>{props.children}</MainContext.Provider>

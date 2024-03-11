@@ -69,6 +69,8 @@ const CollectHistory = () => {
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>#</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Name</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Phone Contact</b></th>
+                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Date</b></th>
+                                            <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Time</b></th>
                                             <th style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><b>Action</b></th>
                                         </tr>
                                     </thead>
@@ -78,6 +80,8 @@ const CollectHistory = () => {
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{index + 1}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.firstName + " " + x?.patient?.lastName}</td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>{x?.patient?.phoneNumber}</td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><strong className="text-primary">{x?.date}</strong></td>
+                                                <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}><strong className="text-danger">{global?.formatTime(x?.time)}</strong></td>
                                                 <td style={{ backgroundColor: global?.theme?.backgroundColor, color: global?.theme?.color }}>
                                                     <a className='btn btn-success' target="_blank" href={`./create-vitals?patientId=${encodeURIComponent(x?.patient?._id)}&&appointmentId=${x?._id}&&patientName=${encodeURIComponent(x?.patient?.firstName + " " + x?.patient?.lastName)}&&patientContact=${encodeURIComponent(x?.patient?.phoneNumber)}&&gender=${encodeURIComponent(x?.patient?.gender)}`} rel="noreferrer">
                                                         Process

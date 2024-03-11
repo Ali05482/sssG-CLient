@@ -67,7 +67,7 @@ const LoginComponent = () => {
   };
   return (
     <>
-              <img src="/mainLogo.png" width={200} alt="Image" className="img-fluid" />
+     <img src="/mainLogo.png" width={200} alt="Image" className="img-fluid" />
       <div className="content">
         <div className="container">
           <div className="row">

@@ -10,6 +10,7 @@ import Referral from "./Referral";
 import _, { set } from "lodash";
 import { requisitionBuilder } from "../../../shared/report/Requisition";
 import { doctorNoteBuilder } from "../../../shared/report/DoctorNote";
+import Reporter from "../Reporter";
 
 const Documents = ({
   config,
@@ -17,6 +18,7 @@ const Documents = ({
   questionnaires,
   questionnaireId,
   care = false,
+  isRecordView
 }) => {
   const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
   const global = useContext(MainContext);
@@ -342,11 +344,47 @@ const Documents = ({
     }
   };
 
+  // useEffect(() => {
+
+  // }, [appointmentId]);
+
+
+  const handleUploadFile = async (e) => {
+    Swal.fire({
+      icon: "warning",
+      title: "Please upgrade subscribtion on your vercel account for this feature to work., If you have done already let us trigger it for you. Thanks!",
+    });
+    const files = e?.target?.files;
+    const formData = new FormData();
+    // for (let i = 0; i < files?.length; i++) {
+    //   console.log("files", files[i])
+    //   formData.append("files", files[i]);
+    // }
+
+    // try {
+    //   const response = await fetch('/api/uploadAppointmentDocuments', {
+    //     method: 'POST',
+    //     body: formData,
+    //   });
+
+    //   if (!response.ok) {
+    //     return { status: false, message: 'Upload failed', data: null };
+    //   }
+    //   const result = await response.json();
+    //   console.log("result====>", result)
+    //    return result
+    // } catch (error) {
+    //   return { status: false, message: 'Upload failed', data: null };
+    // }
+  }
+
+
   useEffect(() => {
     if (!_?.isEmpty(questionnaires)) {
       setUpdatedQuestionnaires(questionnaires);
     }
   }, [questionnaires]);
+
   useEffect(() => {
     getSickNote(appointmentId);
     getPrescription(appointmentId);
@@ -364,9 +402,8 @@ const Documents = ({
   return (
     <>
       <div ref={contentRef} style={{ display: "none" }} />
-      {/* <div style={{ height: "90vh" }} className="container bg-light my-3"> */}
       <div className="wrapper">
-        {!care && (
+        {(!care && isRecordView != "true") && (
           <>
             <br />
             <div
@@ -414,6 +451,7 @@ const Documents = ({
                       </button>
                     </div>
                   </div>
+
                   <div className="col-md-5 mt-3">
                     <div className="input-group">
                       <button
@@ -424,12 +462,24 @@ const Documents = ({
                         Doctor Note
                       </button>
                     </div>
+
+                  </div>
+
+                  <div className="input-group my-2">
+                    <input
+                      style={{
+                        backgroundColor: global?.theme?.backgroundColor,
+                        color: global?.theme?.color,
+                      }}
+                      onChange={handleUploadFile}
+                      type="file" className="form-control" />
                   </div>
                 </div>
               </div>
             </div>
           </>
         )}
+        {isRecordView == "true" && <div className="my-3"></div>}
         <div id="accordion">
           {sickNote?.data && (
             <div
@@ -458,7 +508,7 @@ const Documents = ({
                       </button>
                     </div>
                     <div className="col-md-3">
-                      {!care && (
+                      {(!care && isRecordView != "true") && (
                         <>
                           <button
                             type="button"
@@ -493,14 +543,14 @@ const Documents = ({
                 data-parent="#accordion"
               >
                 <div className="card-body">
-                  <JoditEditor
+                  {isRecordView == "true" ? <Reporter htmlString={sickNote?.data} /> : <JoditEditor
                     value={sickNote?.data}
                     config={config}
                     tabIndex={1}
                     onBlur={(newContent) =>
                       setSickNote({ ...sickNote, data: newContent })
                     }
-                  />
+                  />}
                 </div>
               </div>
             </div>
@@ -538,7 +588,7 @@ const Documents = ({
                       </button>
                     </div>
                     <div className="col-md-3">
-                      {!care && (
+                      {(!care && isRecordView != "true") && (
                         <>
                           <button
                             type="button"
@@ -569,14 +619,13 @@ const Documents = ({
 
               <div
                 id={`collapsePrescriptionManagement`}
-                className={`collapse ${
-                  prescriptionContentVisible ? "show" : ""
-                }`}
+                className={`collapse ${prescriptionContentVisible ? "show" : ""
+                  }`}
                 aria-labelledby={`headingPrescriptionContent`}
                 data-parent="#accordion"
               >
                 <div className="card-body">
-                  <JoditEditor
+                  {isRecordView == "true" ? <Reporter htmlString={prescription?.data} /> : <JoditEditor
                     value={prescription?.data}
                     config={config}
                     tabIndex={1}
@@ -586,7 +635,7 @@ const Documents = ({
                         data: prescriptionContent,
                       })
                     }
-                  />
+                  />}
                 </div>
               </div>
             </div>
@@ -622,7 +671,7 @@ const Documents = ({
                       </button>
                     </div>
                     <div className="col-md-3">
-                      {!care && (
+                      {(!care && isRecordView != "true") && (
                         <>
                           <button
                             type="button"
@@ -657,14 +706,14 @@ const Documents = ({
                 data-parent="#accordion"
               >
                 <div className="card-body">
-                  <JoditEditor
+                  {isRecordView == "true" ? <Reporter htmlString={referral?.data} /> : <JoditEditor
                     value={referral?.data}
                     config={config}
                     tabIndex={1}
                     onBlur={(newContent) =>
                       setReferral({ ...referral, data: newContent })
                     }
-                  />
+                  />}
                 </div>
               </div>
             </div>
@@ -702,7 +751,7 @@ const Documents = ({
                       </button>
                     </div>
                     <div className="col-md-3">
-                      {!care && (
+                      {(!care && isRecordView != "true") && (
                         <>
                           <button
                             type="button"
@@ -732,21 +781,20 @@ const Documents = ({
               </div>
               <div
                 id={`collapseRequisitionManagement`}
-                className={`collapse ${
-                  requisitionContentVisible ? "show" : ""
-                }`}
+                className={`collapse ${requisitionContentVisible ? "show" : ""
+                  }`}
                 aria-labelledby={`headingReferral`}
                 data-parent="#accordion"
               >
                 <div className="card-body">
-                  <JoditEditor
+                  {isRecordView == "true" ? <Reporter htmlString={requisition?.data} /> : <JoditEditor
                     value={requisition?.data}
                     config={config}
                     tabIndex={1}
                     onBlur={(newContent) =>
                       setRequisition({ ...requisition, data: newContent })
                     }
-                  />
+                  />}
                 </div>
               </div>
             </div>
@@ -782,7 +830,7 @@ const Documents = ({
                       </button>
                     </div>
                     <div className="col-md-3">
-                      {!care && (
+                      {(!care && isRecordView != "true") && (
                         <>
                           <button
                             type="button"
@@ -817,32 +865,31 @@ const Documents = ({
                 data-parent="#accordion"
               >
                 <div className="card-body">
-                  <JoditEditor
+                  {isRecordView == "true" ? <Reporter htmlString={doctorNote?.data} /> : <JoditEditor
                     value={doctorNote?.data}
                     config={config}
                     tabIndex={1}
                     onBlur={(newContent) =>
                       setDoctorNote({ ...doctorNote, data: newContent })
                     }
-                  />
+                  />}
                 </div>
               </div>
             </div>
           )}
         </div>
       </div>
-      {/* </div> */}
       <Modal isOpen={isModalOpen} className="modal-dialog-centered" size="xl">
-        <ModalHeader  style={{
-            backgroundColor: global?.theme?.backgroundColor,
-            color: global?.theme?.color,
-          }} toggle={() => setIsModalOpen(!isModalOpen)}>
+        <ModalHeader style={{
+          backgroundColor: global?.theme?.backgroundColor,
+          color: global?.theme?.color,
+        }} toggle={() => setIsModalOpen(!isModalOpen)}>
           <h5 className="text-center">Create Sick Note</h5>
         </ModalHeader>
-        <ModalBody  style={{
-            backgroundColor: global?.theme?.backgroundColor,
-            color: global?.theme?.color,
-          }}>
+        <ModalBody style={{
+          backgroundColor: global?.theme?.backgroundColor,
+          color: global?.theme?.color,
+        }}>
           <SickNote
             getCurrentDate={getCurrentDate}
             sickNote={sickNote}
@@ -859,16 +906,16 @@ const Documents = ({
         className="modal-dialog-centered"
         size="xl"
       >
-        <ModalHeader  style={{
-            backgroundColor: global?.theme?.backgroundColor,
-            color: global?.theme?.color,
-          }} toggle={() => setIsPrescriptionOpen(!isPrescriptionOpen)}>
+        <ModalHeader style={{
+          backgroundColor: global?.theme?.backgroundColor,
+          color: global?.theme?.color,
+        }} toggle={() => setIsPrescriptionOpen(!isPrescriptionOpen)}>
           <h5 className="text-center">Prescription Builder</h5>
         </ModalHeader>
-        <ModalBody  style={{
-            backgroundColor: global?.theme?.backgroundColor,
-            color: global?.theme?.color,
-          }}>
+        <ModalBody style={{
+          backgroundColor: global?.theme?.backgroundColor,
+          color: global?.theme?.color,
+        }}>
           <Prescription
             handleSubmitPrescription={handleSubmitPrescription}
             setPrescriptionContent={setPrescriptionContent}

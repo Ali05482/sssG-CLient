@@ -3,7 +3,7 @@ import Swal from "sweetalert2";
 
 const getFetcher = async (method, data = "", url) => {
   try {
-    const apiUrl = "https://sssg-server-omega.vercel.app" + "/api/v1" + url;
+    const apiUrl = "https://sssg-server-1.vercel.app" + "/api/v1" + url;
     // const apiUrl = "http://localhost:4001" + "/api/v1" + url;
     const contentType = "application/json";
     pageLoader.setPageLoading(30);
